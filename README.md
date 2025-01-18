@@ -1,107 +1,98 @@
-# This repo is no longer maintained. Consider using `npm init vite` and selecting the `svelte` option or — if you want a full-fledged app framework — use [SvelteKit](https://kit.svelte.dev), the official application framework for Svelte.
+# DormMate Frontend
 
----
+This repository contains the frontend code for the DormMate web application, a dormitory management system designed to streamline communication and transactions between dorm owners and tenants.
 
-# svelte app
+## About
 
-This is a project template for [Svelte](https://svelte.dev) apps. It lives at https://github.com/sveltejs/template.
+DormMate is a web application built to address the inefficiencies and communication gaps often present in traditional dormitory management. It provides a digital platform for dorm owners to manage units, track payments, and share announcements, and for tenants to stay informed and submit maintenance requests.
 
-To create a new project based on this template using [degit](https://github.com/Rich-Harris/degit):
+This project contains the client-side code, built with [Svelte](https://svelte.dev/), which interacts with the backend API to provide a user-friendly interface.
 
-```bash
-npx degit sveltejs/template svelte-app
-cd svelte-app
-```
+## Getting Started
 
-*Note that you will need to have [Node.js](https://nodejs.org) installed.*
+### Prerequisites
 
+*   [Node.js](https://nodejs.org/) (>= 18.x) and [npm](https://www.npmjs.com/) (included with Node.js).
+*   A web browser (Chrome, Firefox, Safari, etc.).
 
-## Get started
+### Installation
 
-Install the dependencies...
+1.  **Clone the repository:**
+    ```bash
+    git clone [your-repository-url]
+    cd dormmate-frontend
+    ```
 
-```bash
-cd svelte-app
-npm install
-```
+2.  **Install dependencies:**
+    ```bash
+    npm install
+    ```
 
-...then start [Rollup](https://rollupjs.org):
+### Running the Application
 
-```bash
-npm run dev
-```
+1.  **Start the development server:**
+    ```bash
+    npm run dev
+    ```
 
-Navigate to [localhost:8080](http://localhost:8080). You should see your app running. Edit a component file in `src`, save it, and reload the page to see your changes.
+2.  Open your web browser and navigate to `http://localhost:5000` (or the port indicated in your terminal).
 
-By default, the server will only respond to requests from localhost. To allow connections from other computers, edit the `sirv` commands in package.json to include the option `--host 0.0.0.0`.
+### Technology Stack
 
-If you're using [Visual Studio Code](https://code.visualstudio.com/) we recommend installing the official extension [Svelte for VS Code](https://marketplace.visualstudio.com/items?itemName=svelte.svelte-vscode). If you are using other editors you may need to install a plugin in order to get syntax highlighting and intellisense.
+*   **Svelte:** The frontend framework used for building the user interface.
+*   **svelte-navigator:** Library for handling client-side routing within the Svelte application.
+*   **Axios:** Promise-based HTTP client for making API requests to the backend.
+*   **HTML:** For structuring the web pages.
+*   **CSS:** For styling the application.
+*   **JavaScript:** For handling user interactions and making API calls.
 
-## Building and running in production mode
+### Key Features (in MVP)
 
-To create an optimised version of the app:
+*   **Landing page:** Page where the user can choose to login as an admin or a tenant.
+*   **Admin dashboard:** Includes functionality to manage units, payments, announcements, and maintenance requests.
+*   **Tenant dashboard:** Enables tenants to view their profile, announcements, and maintenance requests.
 
-```bash
-npm run build
-```
+### Project Structure
 
-You can run the newly built app with `npm run start`. This uses [sirv](https://github.com/lukeed/sirv), which is included in your package.json's `dependencies` so that the app will work when you deploy to platforms like [Heroku](https://heroku.com).
+The project structure is as follows:
+Use code with caution.
+Markdown
+dormmate-frontend/
+├── public/ (Static assets such as images)
+├── src/
+│ ├── components/ (All your Svelte components)
+│ │ ├── auth/
+│ │ │ ├── Login.svelte
+│ │ │ └── Register.svelte
+│ │ ├── admin/
+│ │ │ ├── Dashboard.svelte
+│ │ │ ├── Units.svelte
+│ │ │ ├── Tenants.svelte
+│ │ │ └── Announcements.svelte
+│ │ └── tenant/
+│ │ ├── Dashboard.svelte
+│ │ ├── Maintenance.svelte
+│ │ └── Profile.svelte
+│ ├── routes/
+│ │ ├── _layout.svelte (Common layout for all pages)
+│ │ └── index.svelte (Landing page - choose admin/tenant login)
+│ ├── App.svelte
+│ ├── main.js
+│ ├── lib/
+│ │ └── api.js
+│ └── styles/
+│ └── global.css
+└── ...
 
+### Known Issues
 
-## Single-page app mode
+*   There are no tests.
+*   The authentication and authorization are not fully implemented yet.
 
-By default, sirv will only respond to requests that match files in `public`. This is to maximise compatibility with static fileservers, allowing you to deploy your app anywhere.
+### Roadmap (Future Enhancements)
 
-If you're building a single-page app (SPA) with multiple routes, sirv needs to be able to respond to requests for *any* path. You can make it so by editing the `"start"` command in package.json:
-
-```js
-"start": "sirv public --single"
-```
-
-## Using TypeScript
-
-This template comes with a script to set up a TypeScript development environment, you can run it immediately after cloning the template with:
-
-```bash
-node scripts/setupTypeScript.js
-```
-
-Or remove the script via:
-
-```bash
-rm scripts/setupTypeScript.js
-```
-
-If you want to use `baseUrl` or `path` aliases within your `tsconfig`, you need to set up `@rollup/plugin-alias` to tell Rollup to resolve the aliases. For more info, see [this StackOverflow question](https://stackoverflow.com/questions/63427935/setup-tsconfig-path-in-svelte).
-
-## Deploying to the web
-
-### With [Vercel](https://vercel.com)
-
-Install `vercel` if you haven't already:
-
-```bash
-npm install -g vercel
-```
-
-Then, from within your project folder:
-
-```bash
-cd public
-vercel deploy --name my-project
-```
-
-### With [surge](https://surge.sh/)
-
-Install `surge` if you haven't already:
-
-```bash
-npm install -g surge
-```
-
-Then, from within your project folder:
-
-```bash
-npm run build
-surge public my-project.surge.sh
-```
+*   Implement user registration and login.
+*   Add role-based access control for different parts of the application.
+*   Implement a more robust error handling system.
+*   Add testing for the different components.
+*   Improve UI/UX design and add responsiveness.
