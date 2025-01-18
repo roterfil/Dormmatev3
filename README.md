@@ -52,38 +52,6 @@ This project contains the client-side code, built with [Svelte](https://svelte.d
 *   **Admin dashboard:** Includes functionality to manage units, payments, announcements, and maintenance requests.
 *   **Tenant dashboard:** Enables tenants to view their profile, announcements, and maintenance requests.
 
-### Project Structure
-
-The project structure is as follows:
-Use code with caution.
-Markdown
-dormmate-frontend/
-├── public/ (Static assets such as images)
-├── src/
-│ ├── components/ (All your Svelte components)
-│ │ ├── auth/
-│ │ │ ├── Login.svelte
-│ │ │ └── Register.svelte
-│ │ ├── admin/
-│ │ │ ├── Dashboard.svelte
-│ │ │ ├── Units.svelte
-│ │ │ ├── Tenants.svelte
-│ │ │ └── Announcements.svelte
-│ │ └── tenant/
-│ │ ├── Dashboard.svelte
-│ │ ├── Maintenance.svelte
-│ │ └── Profile.svelte
-│ ├── routes/
-│ │ ├── _layout.svelte (Common layout for all pages)
-│ │ └── index.svelte (Landing page - choose admin/tenant login)
-│ ├── App.svelte
-│ ├── main.js
-│ ├── lib/
-│ │ └── api.js
-│ └── styles/
-│ └── global.css
-└── ...
-
 ### Known Issues
 
 *   There are no tests.
