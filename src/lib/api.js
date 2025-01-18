@@ -136,7 +136,7 @@ export const updateAnnouncement = async (announcementId, announcementData) => {
   return response.data;
 };
 export const deleteAnnouncement = async (announcementId) => {
-  const response = await api.delete(`/announcement  /${announcementId}`);
+  const response = await api.delete(`/announcement/${announcementId}`);
   return response.data;
 };
 // --- MaintenanceRequest ---

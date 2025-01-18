@@ -243,7 +243,7 @@
                     <input type="password" id="tenantPassword" bind:value={newTenantPassword} required />
                 </div>
                 <button type="submit">Add Tenant</button>
-                   <button on:click={() => selectedUnitForTenants = null}>Cancel</button>
+                   <button on:click={() => selectedUnitForTenants = null} class="editbutton">Cancel</button>
             </form>
         </div>
     </div>
