@@ -7,6 +7,7 @@
     import TenantDashboard from './components/tenant/Dashboard.svelte';
 	import Units from './components/admin/Units.svelte'
 	import Announcements from './components/admin/Announcements.svelte'
+    import MaintenanceRequest from './components/admin/MaintenanceRequests.svelte'
 </script>
 
 <Router>
@@ -18,5 +19,6 @@
         <Route path="/tenant" component={TenantDashboard} />
 		<Route path="/admin/units" component={Units}/>
 		<Route path="/admin/announcements" component={Announcements}/>
+        <Route path="admin/maintenance" component={MaintenanceRequest}/>
     </Layout>
 </Router>
