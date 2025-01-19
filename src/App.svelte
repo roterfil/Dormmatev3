@@ -5,9 +5,11 @@
     import LandingPage from './routes/index.svelte';
     import AdminDashboard from './components/admin/Dashboard.svelte';
     import TenantDashboard from './components/tenant/Dashboard.svelte';
-	import Units from './components/admin/Units.svelte'
-	import Announcements from './components/admin/Announcements.svelte'
-    import MaintenanceRequest from './components/admin/MaintenanceRequests.svelte'
+	import Units from './components/admin/Units.svelte';
+	import Announcements from './components/admin/Announcements.svelte';
+    import MaintenanceRequest from './components/admin/MaintenanceRequests.svelte';
+    import Payment from './components/admin/PaymentTracking.svelte';
+
 </script>
 
 <Router>
@@ -19,6 +21,7 @@
         <Route path="/tenant" component={TenantDashboard} />
 		<Route path="/admin/units" component={Units}/>
 		<Route path="/admin/announcements" component={Announcements}/>
-        <Route path="admin/maintenance" component={MaintenanceRequest}/>
+        <Route path="/admin/maintenance" component={MaintenanceRequest}/>
+        <Route path="/admin/payment" component={Payment}/>
     </Layout>
 </Router>

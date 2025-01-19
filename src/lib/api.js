@@ -118,6 +118,10 @@ export const getPaymentsByTenantId = async (tenantId) => {
     const response = await api.get(`/payments/tenant/${tenantId}`);
     return response.data;
 };
+export const updatePayment = async (paymentId, paymentData) => {
+  const response = await api.put(`/payments/${paymentId}`, paymentData);
+  return response.data;
+};
 // --- Announcement ---
 export const getAnnouncements = async () => {
   const response = await api.get('/announcement');
