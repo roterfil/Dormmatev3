@@ -152,7 +152,7 @@ export const getMaintenanceRequestById = async (requestId) => {
   const response = await api.get(`/maintenance-requests/${requestId}`);
   return response.data;
 };
-export const createMaintenanceRequest = async (requestData, tenantId, unitId) => {
+export const createMaintenanceRequest = async (requestData, tenantId) => {
     const response = await api.post(`/maintenance-requests?tenantId=${tenantId}&unitId=${unitId}`, requestData);
     return response.data;
 };

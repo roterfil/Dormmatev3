@@ -6,9 +6,10 @@
   
   <nav>
     <ul>
-      <li><Link to="/tenant/maintenance">Unit Management</Link></li>
+      <li><Link to="/tenant/information">Unit Management</Link></li>
       <li><Link to="/tenant/payment">Payment Tracking</Link></li>
       <li><Link to="/tenant/announcements">Bulletin Board</Link></li>
+      <li><Link to="/tenant/maintenance">Submit Maintenance Request</Link></li>
     </ul>
   </nav>
   
