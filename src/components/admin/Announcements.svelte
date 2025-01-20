@@ -34,7 +34,7 @@
         const response = await createAnnouncement({
            title: newAnnouncementTitle,
            content: newAnnouncementContent
-           }, 1);
+           }, 10010008);
 
         await fetchAnnouncements();
 
@@ -115,10 +115,8 @@
                 </div>
              {:else}
                 <h3>{announcement.title}</h3>
-                <div class="button-container">
                   <button on:click={() => confirmDelete(announcement.announcementId)} class="deletebutton"> Delete</button>
                   <button on:click={() => startEdit(announcement)} class = "editbutton">Edit</button>
-                </div>
               {/if}
         </div>
       <p>
@@ -186,7 +184,7 @@
        align-items: center;
  }
 
- .button-container {
+  .button-container {
     display: flex;
     gap: 10px;
   }
@@ -214,61 +212,61 @@
 
     form div {
       margin-bottom: 10px;
-      display: flex;
+       display: flex;
      flex-direction: column; /* Arrange labels and inputs vertically */
     }
 
-    label {
+   label {
       text-align: left; /* Align labels to the left */
     }
-    input[type="text"]{
-        padding: 8px;
-        border: 1px solid #ddd;
-        border-radius: 4px;
-         width: 100%; /* Make input fields fill their container */
-    }
+     input[type="text"]{
+       padding: 8px;
+       border: 1px solid #ddd;
+       border-radius: 4px;
+          width: 100%; /* Make input fields fill their container */
+     }
    button {
         padding: 10px 20px;
         background-color: #007bff;
         color: white;
-         border: none;
-      border-radius: 4px;
-      cursor: pointer;
+        border: none;
+       border-radius: 4px;
+        cursor: pointer;
       margin: 0 10px 10px 0;
-   }
-   button:hover {
-     background-color: #0056b3;
     }
-    .deletebutton {
-        background-color: red;
-    }
+       button:hover {
+        background-color: #0056b3;
+     }
+  .deletebutton {
+    background-color: red;
+  }
 
-     .deletebutton:hover {
+   .deletebutton:hover {
         background-color: rgb(135, 0, 0);
-    }
-    .addbutton{
+  }
+      .addbutton{
         display: block;
-        margin: 0 auto;
+         margin: 0 auto;
     }
         .modal {
-            position: fixed;
-            top: 0;
-           left: 0;
+             position: fixed;
+          top: 0;
+          left: 0;
            width: 100%;
-            height: 100%;
+           height: 100%;
            background-color: rgba(0, 0, 0, 0.5); /* semi-transparent black */
-      display: flex;
-       justify-content: center;
+        display: flex;
+        justify-content: center;
           align-items: center;
           z-index: 1000;
         }
-    .modal-content {
-        background-color: white;
-         padding: 20px;
-      border-radius: 5px;
-          display: flex;
-         flex-direction: column;
-        text-align: center;
-          width: 400px;
-    }
+   .modal-content {
+      background-color: white;
+       padding: 20px;
+       border-radius: 5px;
+       display: flex;
+          flex-direction: column;
+       text-align: center;
+        width: 400px;
+   }
 </style>

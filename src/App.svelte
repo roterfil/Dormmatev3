@@ -14,7 +14,7 @@
     import MaintenanceRequest from './components/admin/MaintenanceRequests.svelte';
     import Payment from './components/admin/PaymentTracking.svelte';
     import Units from './components/admin/Units.svelte';
-
+    import Tenants from './components/admin/Tenants.svelte'
     //import all of the tenants pages 
 
     import TenantDashboard from './components/tenant/Dashboard.svelte';
@@ -42,6 +42,7 @@
 		<Route path="/admin/announcements" component={AnnouncementsAdmin}/>
         <Route path="/admin/maintenance" component={MaintenanceRequest}/>
         <Route path="/admin/payment" component={Payment}/>
+        <Route path="/admin/tenants" component={Tenants}/>
 
         <!-- Route for the tenant pages -->
         <Route path="/tenant" component={TenantDashboard} />

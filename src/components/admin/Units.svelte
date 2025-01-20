@@ -1,6 +1,6 @@
 <script>
   import { onMount } from 'svelte';
-  import { getUnits, createUnit, updateUnit, deleteUnit, createTenant, getTenants } from '../../lib/api';
+  import { getUnits, createUnit, updateUnit, deleteUnit } from '../../lib/api';
 
   let units = [];
   let loading = true;
@@ -10,14 +10,9 @@
   let editingUnitId = null;
   let editUnitName = '';
   let editUnitDescription = '';
-  let showModal = false;
-  let deletingUnitId = null;
-  let showDeleteConfirmation = false;
-  let selectedUnitForTenants = null;
-    let tenantsInUnit = [];
-  let newTenantName = '';
-  let newTenantEmail = '';
-  let newTenantPassword = '';
+    let showModal = false;
+    let deletingUnitId = null;
+     let showDeleteConfirmation = false;
 
   onMount(async () => {
     fetchUnits();
@@ -34,49 +29,28 @@
     }
   }
 
-  async function handleSubmit() {
-    try {
-      const response = await createUnit({
-        unitName: newUnitName,
-        description: newUnitDescription,
-      });
+    async function handleSubmit() {
+        try {
+            const response = await createUnit({
+                unitName: newUnitName,
+                description: newUnitDescription
+            });
 
-      await fetchUnits();
+            // Update the local list
+            await fetchUnits();
 
-      newUnitName = '';
-      newUnitDescription = '';
-      showModal = false;
+            newUnitName = "";
+            newUnitDescription = "";
+            showModal = false;
 
-      console.log('New unit created:', response);
-    } catch (err) {
-      error = err.message;
+
+            console.log('New unit created:', response);
+
+        } catch (err) {
+            error = err.message;
+        }
     }
-  }
-
-  async function handleAddTenant(unitId) {
-    try {
-       const response = await createTenant({
-          name: newTenantName,
-          user: {
-           email: newTenantEmail,
-            password: newTenantPassword,
-            role: "tenant",
-            username: newTenantName,
-          }
-        }, null, unitId);
-
-      await fetchUnits();
-        newTenantName = '';
-        newTenantEmail = '';
-        newTenantPassword = '';
-        selectedUnitForTenants = null;
-
-      console.log('New tenant created:', response);
-    } catch (err) {
-      error = err.message;
-    }
-  }
-  
+    
   function startEdit(unit) {
     editingUnitId = unit.unitId;
     editUnitName = unit.unitName;
@@ -118,26 +92,15 @@
     try {
       await deleteUnit(deletingUnitId);
       await fetchUnits(); // Refresh the list after delete
-       deletingUnitId = null;
-      showDeleteConfirmation = false;
 
+      deletingUnitId = null;
+      showDeleteConfirmation = false;
 
       console.log('Unit deleted');
     } catch (error) {
       error = error.message;
     }
   }
-   async function viewTenants(unit) {
-        selectedUnitForTenants = unit;
-      tenantsInUnit = []; // Clear the previous list
-      try {
-          tenantsInUnit = await getTenants();
-      }
-       catch (err) {
-           error = err.message
-       }
-  }
-    
 </script>
 
 <h2>Unit Management</h2>
@@ -173,7 +136,6 @@
             <td>
               <button on:click={() => startEdit(unit)} class="editbutton">Edit</button>
               <button on:click={() => confirmDelete(unit.unitId)} class="deletebutton">Delete</button>
-              <button on:click={()=>viewTenants(unit)} class="viewtenantbutton">View Tenants</button>
             </td>
           {/if}
         </tr>
@@ -203,51 +165,17 @@
   </div>
 {/if}
 {#if showDeleteConfirmation}
-    <div class="modal">
-      <div class="modal-content">
-        <h2>Confirm Deletion</h2>
-        <p>Are you sure you want to delete this unit?</p>
-        <div>
-             <button on:click={handleDelete} class="editbutton">Yes</button>
-             <button on:click={cancelDelete} class="deletebutton">Cancel</button>
-         </div>
-        </div>
+  <div class="modal">
+    <div class="modal-content">
+      <h2>Confirm Deletion</h2>
+      <p>Are you sure you want to delete this unit?</p>
+      <div>
+        <button on:click={handleDelete} class="editbutton">Yes</button>
+        <button on:click={cancelDelete} class="deletebutton">Cancel</button>
+      </div>
     </div>
-  {/if}
-
-{#if selectedUnitForTenants}
-    <div class="modal">
-        <div class="modal-content">
-         <h2>Tenants in Unit: {selectedUnitForTenants.unitName}</h2>
-            {#if tenantsInUnit && tenantsInUnit.length > 0}
-            <ul>
-                  {#each tenantsInUnit as tenant}
-                    <li>{tenant.name}</li>
-                {/each}
-              </ul>
-           {:else}
-                <p>No tenants assigned to this unit</p>
-            {/if}
-            <h3> Add Tenant to Unit:</h3>
-             <form on:submit|preventDefault={() => handleAddTenant(selectedUnitForTenants.unitId)}>
-               <div>
-                    <label for="tenantName">Tenant Name:</label>
-                  <input type="text" id="tenantName" bind:value={newTenantName} required />
-                </div>
-                 <div>
-                     <label for="tenantEmail">Tenant Email:</label>
-                  <input type="email" id="tenantEmail" bind:value={newTenantEmail} required />
-                  </div>
-               <div>
-                  <label for="tenantPassword">Tenant Password:</label>
-                    <input type="password" id="tenantPassword" bind:value={newTenantPassword} required />
-                </div>
-                <button type="submit">Add Tenant</button>
-                   <button on:click={() => selectedUnitForTenants = null} class="editbutton">Cancel</button>
-            </form>
-        </div>
-    </div>
-    {/if}
+  </div>
+{/if}
 
 <style>
   table {
@@ -267,81 +195,74 @@
       flex-direction: column;
       align-items: center;
       margin-top: 20px;
-      width: 50%;
+       width: 50%;
       margin: 20px auto; /* Center the form */
     }
 
     form div {
       margin-bottom: 10px;
-      display: flex;
-      flex-direction: column; /* Arrange labels and inputs vertically */
+        display: flex;
+       flex-direction: column; /* Arrange labels and inputs vertically */
     }
 
     label {
-      text-align: left; /* Align labels to the left */
+        text-align: left; /* Align labels to the left */
     }
 
-    input[type="text"], input[type="email"], input[type="password"] {
-        padding: 8px;
-      border: 1px solid #ddd;
-      border-radius: 4px;
-        width: 100%; /* Make input fields fill their container */
+    input[type="text"]{
+       padding: 8px;
+         border: 1px solid #ddd;
+        border-radius: 4px;
+         width: 100%; /* Make input fields fill their container */
     }
 
-    button {
-      padding: 10px 20px;
-      background-color: #007bff;
-      color: white;
-      border: none;
-      border-radius: 4px;
-      cursor: pointer;
+  button {
+    padding: 10px 20px;
+        background-color: #007bff;
+        color: white;
+       border: none;
+       border-radius: 4px;
+       cursor: pointer;
       margin: 0 10px 10px 0;
     }
     button:hover {
       background-color: #0056b3;
     }
 
-    .editbutton {
-      background-color: green;
+      .editbutton {
+        background-color: green;
     }
 
     .editbutton:hover {
-      background-color: rgb(1, 63, 1);
-    }
-    .viewtenantbutton {
-      background-color: #1976D2;
-        color: white;
-      }
+        background-color: rgb(1, 63, 1);
+   }
 
-      .viewtenantbutton:hover {
-          background-color: #1565C0;
-       }
-    .deletebutton {
-      background-color: red;
+   .deletebutton {
+        background-color: red;
     }
 
     .deletebutton:hover {
       background-color: rgb(135, 0, 0);
     }
-    .modal {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background-color: rgba(0, 0, 0, 0.5); /* semi-transparent black */
+   .modal {
+        position: fixed;
+        top: 0;
+       left: 0;
+        width: 100%;
+        height: 100%;
+         background-color: rgba(0, 0, 0, 0.5); /* semi-transparent black */
       display: flex;
-       justify-content: center;
-      align-items: center;
-      z-index: 1000;
+        justify-content: center;
+       align-items: center;
+        z-index: 1000;
     }
-    .modal-content {
-    background-color: white;
-    padding: 20px;
-    border-radius: 5px;
+ .modal-content {
+       background-color: white;
+     padding: 20px;
+      border-radius: 5px;
       display: flex;
-       flex-direction: column;
-    text-align: center;
-       width: 400px;
+    flex-direction: column;
+      text-align: center;
+        width: 400px;
     }
 </style>
