@@ -60,6 +60,11 @@ export const deleteUser = async (userId) => {
   return response.data;
 };
 
+export const createUser = async (userData, unitId) => {
+  const response = await api.post(`/users?unitId=${unitId}`, userData);
+   return response.data;
+}
+
 // --- Unit ---
 export const getUnits = async () => {
   const response = await api.get('/units');
@@ -113,6 +118,7 @@ export const getPaymentsByTenantId = async (tenantId) => {
     const response = await api.get(`/payments/tenant/${tenantId}`);
     return response.data;
 };
+
 // --- Announcement ---
 export const getAnnouncements = async () => {
   const response = await api.get('/announcements');

@@ -14,8 +14,15 @@
     let editAnnouncementTitle = "";
      let editAnnouncementContent ="";
 
-  onMount(async () => {
+     onMount(async () => {
     fetchAnnouncements();
+      // Get the userId from localStorage or default it to 1
+          const storedToken = localStorage.getItem('token');
+           if(storedToken === "admin123") {
+                userId = 10010008; // Replace 1 with the actual ID of the test admin user from your db if you want to see the previous data.
+         } else {
+               userId = 1 // default id
+           }
   });
 
   async function fetchAnnouncements() {

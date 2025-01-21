@@ -7,6 +7,7 @@
 <nav>
   <ul>
     <li><Link to="/admin/units">Unit Management</Link></li>
+    <li><Link to="/admin/tenants">Tenant Management</Link></li>
     <li><Link to="/admin/payment">Payment Tracking</Link></li>
     <li><Link to="/admin/announcements">Bulletin Board</Link></li>
     <li><Link to="/admin/maintenance">Maintenance Requests</Link></li>
