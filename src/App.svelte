@@ -21,6 +21,7 @@
     import AnnouncementsTenant from './components/tenant/Announcements.svelte';
     import MaintenanceDisplay from './components/tenant/Maintenance.svelte';
     import SubmitPayment from './components/tenant/Payment.svelte';
+    import Information from './components/tenant/Information.svelte';
 
     import Login from './components/auth/Login.svelte';
 
@@ -33,8 +34,8 @@
         <Route path="/" component={LandingPage} />
 
         <!-- Route for the login pages -->
-        <Route path="/login/admin" component={Login} role="admin" />
-        <Route path="/login/tenant" component={Login} role="tenant" />
+        <Route path="/login" component={Login} role="admin" />
+        <Route path="/login" component={Login} role="tenant" />
 
         <!-- Route for the admin pages -->
         <Route path="/admin" component={AdminDashboard} />
@@ -49,6 +50,7 @@
         <Route path="/tenant/announcements" component={AnnouncementsTenant}/>
         <Route path="/tenant/maintenance" component={MaintenanceDisplay}/>
         <Route path="/tenant/payment" component={SubmitPayment}/>
+        <Route path="/tenant/information" component={Information}/>
 
     </Layout>
 </Router>

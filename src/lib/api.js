@@ -7,21 +7,9 @@ const api = axios.create({
   baseURL: API_BASE_URL,
   headers: {
     'Content-Type': 'application/json',
+    'Content_Type': 'multi-part'
   },
 });
-
-api.interceptors.request.use(
-  (config) => {
-    const token = localStorage.getItem('token');
-    if (token) {
-      config.headers['Authorization'] = `Bearer ${token}`;
-    }
-    return config;
-  },
-  (error) => {
-    return Promise.reject(error);
-  }
-);
 
 // --- Authentication ---
 export const login = async (username, password) => {
@@ -46,8 +34,8 @@ export const getUserById = async (userId) => {
 };
 
 export const getUserByUsername = async (username) => {
-    const response = await api.get(`/users/byUsername/${username}`);
-    return response.data;
+  const response = await api.get(`/users/byUsername/${username}`);
+  return response.data;
 };
 
 export const updateUser = async (userId, userData) => {
@@ -59,10 +47,9 @@ export const deleteUser = async (userId) => {
   const response = await api.delete(`/users/${userId}`);
   return response.data;
 };
-
 export const createUser = async (userData, unitId) => {
-  const response = await api.post(`/users?unitId=${unitId}`, userData);
-   return response.data;
+    const response = await api.post(`/users?unitId=${unitId}`, userData);
+    return response.data;
 }
 
 // --- Unit ---
@@ -119,6 +106,64 @@ export const getPaymentsByTenantId = async (tenantId) => {
     return response.data;
 };
 
+export async function uploadPaymentProof(formData, tenantId, paymentDetails) {
+  formData.append('tenantId', tenantId);
+  formData.append('amount', paymentDetails.amount);
+  formData.append('paymentDate', paymentDetails.paymentDate);
+  formData.append('dueDate', paymentDetails.dueDate);
+
+  const response = await fetch('http://localhost:8080/api/payments/upload', {
+    method: 'POST',
+    body: formData,
+  });
+
+  if (!response.ok) {
+    throw new Error('Failed to upload payment proof');
+  }
+
+  return response.json();
+}
+
+export async function uploadMaintenanceProof(formData, userId, maintenanceDetails) {
+  try {
+    // Format the date to match what the backend expects
+    const formattedDate = maintenanceDetails.requestDate.substring(0, 19); // Remove the milliseconds and timezone
+    
+    formData.append('tenantId', userId);
+    formData.append('unitId', maintenanceDetails.unitId);
+    formData.append('description', maintenanceDetails.description);
+    formData.append('requestDate', formattedDate);
+    
+    // Rename the file field from 'proofOfDamage' to 'image'
+    const imageFile = formData.get('proofOfDamage');
+    formData.delete('proofOfDamage');
+    formData.append('image', imageFile);
+
+    const response = await fetch('http://localhost:8080/api/maintenance-requests/upload', {
+      method: 'POST',
+      body: formData,
+    });
+
+    if (!response.ok) {
+      const errorData = await response.text();
+      throw new Error(errorData || 'Failed to upload maintenance request');
+    }
+
+    return response.json();
+  } catch (error) {
+    console.error('Error uploading maintenance request:', error);
+    throw error;
+  }
+}
+
+export async function getTenantPayments(tenantId) {
+  const response = await fetch(`http://localhost:8080/api/payments/tenant/${tenantId}`);
+  if (!response.ok) {
+    throw new Error('Failed to fetch payments');
+  }
+  return response.json();
+}
+
 // --- Announcement ---
 export const getAnnouncements = async () => {
   const response = await api.get('/announcements');
@@ -160,6 +205,7 @@ export const createMaintenanceRequest = async (requestData, tenantId, unitId) =>
     const response = await api.post(`/maintenance-requests?tenantId=${tenantId}&unitId=${unitId}`, requestData);
     return response.data;
 };
+
 export const updateMaintenanceRequest = async (requestId, requestData) => {
   const response = await api.put(`/maintenance-requests/${requestId}`, requestData);
   return response.data;

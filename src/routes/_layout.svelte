@@ -26,11 +26,7 @@
     }
 
     function gotoAdminLogin(){
-        navigate('login/admin');
-    }
-
-    function gotoTenantLogin(){
-        navigate('login/tenant');
+        navigate('login');
     }
 
     // $: showSidebar = !location.pathname.startsWith('/admin');
@@ -65,8 +61,7 @@
         </div>
         {:else}
         <div class="button-container">
-        <button on:click={gotoAdminLogin} class="login-button">Admin Login</button>
-        <button on:click={gotoTenantLogin} class="login-button">Tenant Login</button>
+        <button on:click={gotoAdminLogin} class="login-button">Login</button>
         </div>
         {/if}
     </aside>
