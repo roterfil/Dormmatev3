@@ -36,34 +36,13 @@
     <aside class="sidebar">
         <div class="sidebar-header">
             <Link to="/" class="logo-link">
-                <img src="/dorm-logo.png" alt="DormMate Logo" class="logo" />
+                <img src="./assets/dormmate-logo.png" alt="DormMate Logo" class="logo" />
             </Link>
             <h1>DormMate</h1>
         </div>
-
-        {#if isLoggedIn}
-        <ul>
-            {#if userRole === 'admin'}
-            <li><Link to="/admin">Dashboard</Link></li>
-            <li><Link to="/admin/units">Unit Management</Link></li>
-            <li><Link to="/admin/tenants">Payment Tracking</Link></li>
-            <li><Link to="/admin/announcements">Bulletin Board</Link></li>
-            <li><Link to="/admin/maintenance">Maintenance Requests</Link></li>
-            {:else if userRole === 'tenant'}
-            <li><Link to="/tenant">Dashboard</Link></li>
-            <li><Link to="/tenant/announcements">Announcements</Link></li>
-            <li><Link to="/tenant/payments">Send Payments</Link></li>
-            <li><Link to="/tenant/maintenance">Maintenance</Link></li>
-            {/if}
-        </ul>
-        <div class="button-contaier">
-        <button on:click={handleLogout} class="logout-button">Logout</button>
-        </div>
-        {:else}
         <div class="button-container">
         <button on:click={gotoAdminLogin} class="login-button">Login</button>
         </div>
-        {/if}
     </aside>
 
 

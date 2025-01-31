@@ -22,6 +22,7 @@
     }
   </script>
   
+  <div class="container">
   <h2>Announcements</h2>
   
   {#if loading}
@@ -39,8 +40,16 @@
       {/each}
     </div>
   {/if}
-  
+  </div>
+
   <style>
+
+    .container { 
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 20px;
+      margin-left: 300px;
+    }
    .announcement-list {
       display: flex;
       flex-direction: column;

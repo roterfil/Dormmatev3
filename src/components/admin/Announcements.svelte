@@ -103,6 +103,7 @@
     }
 </script>
 
+<div class="main-container">
 <h2>Bulletin Board</h2>
 
 {#if loading}
@@ -171,8 +172,15 @@
        </div>
   </div>
 {/if}
+</div>
 
 <style>
+  .main-container { 
+    max-width: 1200px;
+      margin: 0 auto;
+      padding: 20px;
+      margin-left: 300px;
+  }
   .announcement-list {
     display: flex;
     flex-direction: column;

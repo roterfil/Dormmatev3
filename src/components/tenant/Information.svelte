@@ -53,7 +53,7 @@
        }
     }
 </script>
-
+<div class = "container">
 <h2>User Profile</h2>
 
 {#if loading}
@@ -100,8 +100,16 @@
        </div>
     </div>
 {/if}
+</div>
 
 <style>
+
+  .container { 
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+    margin-left: 300px;
+  }
    .profile-card {
         background-color: white;
         border-radius: 8px;

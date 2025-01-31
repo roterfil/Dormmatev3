@@ -37,14 +37,6 @@
         <p>Error: {error}</p>
 {:else}
   <div class="tenantdashboard">
-        <nav>
-            <ul>
-                <li><Link to="/tenant/information">Information</Link></li>
-                <li><Link to="/tenant/announcements">Announcements</Link></li>
-                 <li><Link to="/tenant/payment">Send Payments</Link></li>
-                <li><Link to="/tenant/maintenance">Maintenance</Link></li>
-            </ul>
-        </nav>
   <h2>Tenant Dashboard</h2>
 
  <p>Welcome, {userName}! </p>
@@ -64,6 +56,7 @@
     display: flex;
     flex-direction: column;
     padding: 20px;
+    margin-left: 300px; /* to not overlap with the sidebar */
   }
     nav ul {
         list-style: none;

@@ -25,9 +25,10 @@
 <div class="layout-container">
     <aside class="sidebar">
         <div class="logo-container">
-            <img src="/dormmate-logo.png" alt="DormMate" class="logo" />
+            <img src="/assets/dormmate-logo.png" alt="DormMate" class="logo" />
             <h1 class="brand">DormMate</h1>
             <p class="tagline">Manage your dorm with ease</p>
+            <hr>
         </div>
 
         <nav class="nav-menu">
@@ -89,13 +90,28 @@
         min-height: 100vh;
     }
 
-    .sidebar {
-        width: 280px;
-        background-color: #003087;
+    hr { 
         color: white;
-        padding: 2rem;
+        width: 100%;
+    }
+
+
+    .sidebar {
+        background-color: #051650; /* Updated sidebar color */
+        color: white;
+        width: 250px;
+        padding: 1rem;
+        position: fixed; /* Fix the sidebar */
+        height: 100vh; /* Full viewport height */
+        top: 0;
+        left: 0;
         display: flex;
         flex-direction: column;
+        justify-content: space-between; /* Added for logout button */
+        text-align: center;
+        border-radius: 0 20px 20px 0;
+        z-index: 1000; /* Ensure sidebar is above other content */
+        overflow-y: auto; /* Add scroll if content overflows */
         gap: 2rem;
     }
 
@@ -106,7 +122,8 @@
     .logo {
         width: 80px;
         height: 80px;
-        margin-bottom: 1rem;
+        margin-top: 10px;
+        margin-bottom: -10px;
     }
 
     .brand {
@@ -163,6 +180,7 @@
         justify-content: center;
         gap: 0.75rem;
         padding: 0.75rem;
+        margin-bottom: 3rem;
         background-color: rgba(255, 255, 255, 0.1);
         color: white;
         border: none;

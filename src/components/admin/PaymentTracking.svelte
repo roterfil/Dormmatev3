@@ -60,6 +60,7 @@
   }
 </script>
 
+<div class="main-container">
 <h2>Payment Tracking</h2>
 
 {#if loading}
@@ -94,7 +95,7 @@
           <tr>
             <td>{payment.paymentId}</td>
             <td>{payment.tenant.name}</td>
-            <td>${payment.amount}</td>
+            <td> ₱ {payment.amount}</td>
             <td>{payment.paymentDate ? new Date(payment.paymentDate).toLocaleDateString() : "Pending"}</td>
             <td>{new Date(payment.dueDate).toLocaleDateString()}</td>
 
@@ -108,8 +109,8 @@
                 </select>
               </td>
               <td>
-                <button on:click={() => updatePaymentStatus(payment.paymentId)}>Update</button>
-                <button on:click={cancelEdit}>Cancel</button>
+                <button on:click={() => updatePaymentStatus(payment.paymentId) } class="editbutton">Update</button>
+                <button on:click={cancelEdit} class="deletebutton">Cancel</button>
               </td>
             {:else}
               <td>{payment.status}</td>
@@ -121,8 +122,8 @@
                 {/if}
               </td>
               <td>
-                <button on:click={() => startEdit(payment)}>Edit Status</button>
-                <button on:click={() => removePayment(payment.paymentId)} style="background-color: red;">Delete</button>
+                <button on:click={() => startEdit(payment)} class="editbutton">Edit Status</button>
+                <button on:click={() => removePayment(payment.paymentId)} class="deletebutton">Delete</button>
               </td>
             {/if}
           </tr>
@@ -131,8 +132,16 @@
     </table>
   </div>
 {/if}
+</div>
 
 <style>
+
+  .main-container { 
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+    margin-left: 300px;
+  }
   table {
     width: 100%;
     border-collapse: collapse;
@@ -171,5 +180,21 @@
   img {
     display: block;
     margin: auto;
+  }
+
+  .editbutton {
+      background-color: green;
+  }
+
+  .editbutton:hover {
+      background-color: rgb(1, 63, 1);
+  }
+
+  .deletebutton {
+      background-color: red;
+  }
+
+  .deletebutton:hover {
+      background-color: rgb(135, 0, 0);
   }
 </style>

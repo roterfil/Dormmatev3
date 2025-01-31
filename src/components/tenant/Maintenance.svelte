@@ -96,7 +96,7 @@
       }
   }
 </script>
-
+<div class="container">
 <h2>Maintenance Request</h2>
 
 {#if error}
@@ -135,8 +135,16 @@
      {/each}
  </div>
 {/if}
+</div>
 
 <style>
+
+  .container { 
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+    margin-left: 300px;
+  }
   .request-cards {
       display: flex;
      flex-wrap: wrap;

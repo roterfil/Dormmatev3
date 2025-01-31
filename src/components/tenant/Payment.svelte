@@ -151,6 +151,7 @@
     max-width: 1200px;
     margin: 0 auto;
     padding: 20px;
+    margin-left: 300px; /* to not overlap with the sidebar */
   }
 
   form {

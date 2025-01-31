@@ -85,6 +85,7 @@
   }
 </script>
 
+<div class="main-container">
 <h2>Maintenance Requests</h2>
 
 {#if loading}
@@ -117,6 +118,7 @@
               {#if request.proofOfDamage}
                   <div class="image-preview">
                       <p><strong>Proof of Damage:</strong></p>
+                      <!-- svelte-ignore a11y-click-events-have-key-events -->
                       <img 
                           src={request.proofOfDamage} 
                           alt="Proof of damage"
@@ -165,6 +167,7 @@
 {/if}
 
 {#if showImageModal && selectedImage}
+  <!-- svelte-ignore a11y-click-events-have-key-events -->
   <div class="modal" on:click={closeImageModal}>
       <div class="modal-image-content" on:click|stopPropagation>
           <img src={selectedImage} alt="Full size proof of damage" />
@@ -172,8 +175,16 @@
       </div>
   </div>
 {/if}
+</div>
 
 <style>
+
+    .main-container { 
+    max-width: 1200px;
+      margin: 0 auto;
+      padding: 20px;
+      margin-left: 300px;
+    }
   .request-cards {
       display: flex;
       flex-wrap: wrap;
@@ -241,8 +252,6 @@
   .close-button:hover {
       background-color: #555;
   }
-
-  /* ... rest of your existing styles ... */
   .card-header {
       display: flex;
       justify-content: space-between;
