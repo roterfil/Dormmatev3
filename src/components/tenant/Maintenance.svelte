@@ -96,122 +96,237 @@
       }
   }
 </script>
+
+
 <div class="container">
-<h2>Maintenance Request</h2>
+  <h2>Maintenance Request</h2>
+  {#if error}
+    <p class="error-message">{error}</p>
+  {/if}
 
-{#if error}
- <p class="error">{error}</p>
-{/if}
+  <div class="form-section">
+    <h3>Submit Maintenance Request</h3>
+    <div class="form-card">
+      <form on:submit|preventDefault={handleSubmit}>
+        <div class="form-group">
+          <label for="description">Description:</label>
+          <textarea id="description" bind:value={description} required />
+        </div>
+        <div class="form-group">
+          <label for="proofOfDamage">Proof of Damage (optional):</label>
+          <input type="file" id="proofOfDamage" accept="image/*" on:change={handleFileChange} />
+        </div>
+        <button type="submit" class="button primary">Submit Request</button>
+      </form>
+    </div>
+  </div>
 
-<h3>Submit Maintenance Request</h3>
-<form on:submit|preventDefault={handleSubmit}>
- <div>
-   <label for="description">Description:</label>
-   <textarea id="description" bind:value={description} required />
- </div>
- <div>
-   <label for="proofOfDamage">Proof of Damage (optional):</label>
-   <input type="file" id="proofOfDamage" accept="image/*" on:change={handleFileChange} />
- </div>
- <button type="submit">Submit Request</button>
-</form>
+    <hr class="section-separator" />
 
-{#if loading}
- <p>Loading Maintenance Requests...</p>
-{:else}
- <h3>Your Maintenance Requests</h3>
-   <div class="request-cards">
-      {#each requests as request}
-         <div class="request-card">
-             <h3>Request #{request.requestId}</h3>
-               <p>
-                  <strong>Description:</strong> {request.description}
-             </p>
-             <p>
-              <strong>Status: </strong>{request.status}
-           </p>
-             <small class="post-date">Posted on: {new Date(request.requestDate).toLocaleString()}</small>
+  <div class="request-history">
+    <h3>Your Maintenance Requests</h3>
+    {#if loading}
+      <p class="loading-message">Loading Maintenance Requests...</p>
+    {:else}
+      <div class="request-cards">
+        {#each requests as request}
+          <div class="request-card">
+            <div class="card-header">
+              <h3 class="request-title">Request #{request.requestId}</h3>
+            </div>
+            <p class="request-description">
+              <strong>Description:</strong> {request.description}
+            </p>
+            <p class="request-status">
+              <strong>Status: </strong><span class="status-badge status-{request.status.toLowerCase().replace(' ', '-')}">{request.status}</span>
+            </p>
+            <small class="post-date">Posted on: {new Date(request.requestDate).toLocaleString()}</small>
           </div>
-     {/each}
- </div>
-{/if}
+        {/each}
+      </div>
+    {/if}
+  </div>
 </div>
 
 <style>
-
-  .container { 
-    max-width: 1200px;
-    margin: 0 auto;
+  .container {
+    max-width: 800px;
+    margin: 20px auto;
     padding: 20px;
-    margin-left: 300px;
+    background-color: #f8f9fa;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
   }
-  .request-cards {
-      display: flex;
-     flex-wrap: wrap;
-      gap: 20px;
-     justify-content: center;
+  h2 {
+    text-align: center;
+    margin-bottom: 20px;
+    color: #343a40;
   }
-  .request-card {
-     background-color: white;
-       border-radius: 8px;
-      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-      padding: 20px;
-    width: 300px;
-   }
-
-  .request-card h3 {
-       margin-top: 0;
-   }
-   .request-card p {
-      margin-bottom: 5px;
-   }
-  .post-date {
-     font-size: 0.8em;
-       color: gray;
-    display: block;
+  .loading-message {
+    text-align: center;
+    color: #555;
   }
-
- form {
-   display: flex;
+  .error-message {
+    color: #dc3545;
+    text-align: center;
+    margin-bottom: 10px;
+  }
+  .form-section {
+    margin-bottom: 30px;
+  }
+  .form-section h3 {
+    text-align: center;
+    margin-bottom: 20px;
+    color: #495057;
+  }
+  .form-card {
+    background-color: #fff;
+    border-radius: 12px;
+    padding: 25px;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.08);
+    width: 80%;
+    max-width: 600px;
+    margin: 0 auto;
+    transition: box-shadow 0.3s ease;
+  }
+  .form-card:hover {
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.12);
+  }
+  form {
+    display: flex;
     flex-direction: column;
-   align-items: center;
-    margin-top: 20px;
-     width: 50%;
-     margin: 20px auto; /* Center the form */
-   }
-   form div {
-       margin-bottom: 10px;
-     display: flex;
-    flex-direction: column;
-  }
-
-  label {
-       text-align: left;
-  }
-
-   textarea {
-       padding: 8px;
-       border: 1px solid #ddd;
-    border-radius: 4px;
-        width: 100%; /* Make input fields fill their container */
-      height: 200px;
-    }
-   button {
-      padding: 10px 20px;
-      background-color: #007bff;
-     color: white;
-     border: none;
-       border-radius: 4px;
-      cursor: pointer;
-    margin: 0 10px 10px 0;
-   }
-   button:hover {
-    background-color: #0056b3;
- }
- input[type="file"] {
-    padding: 8px;
-   border: 1px solid #ddd;
-   border-radius: 4px;
+    align-items: stretch;
+    margin: 0 auto;
     width: 100%;
   }
+  .form-group {
+    margin-bottom: 15px;
+    display: flex;
+    flex-direction: column;
+  }
+  .form-group label {
+    text-align: left;
+    margin-bottom: 5px;
+    color: #495057;
+  }
+  textarea {
+    padding: 12px;
+    border: 1px solid #ced4da;
+    border-radius: 6px;
+    width: 100%;
+    box-sizing: border-box;
+    transition: border-color 0.2s ease;
+    height: 200px;
+  }
+  textarea:focus {
+    border-color: #007bff;
+    outline: none;
+  }
+  input[type="file"] {
+    padding: 12px;
+    border: 1px solid #ced4da;
+    border-radius: 6px;
+    width: 100%;
+    box-sizing: border-box;
+    transition: border-color 0.2s ease;
+  }
+  input[type="file"]:focus {
+    border-color: #007bff;
+    outline: none;
+  }
+  button {
+    padding: 12px 25px;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 1rem;
+    margin: 10px 0;
+    transition: background-color 0.3s ease;
+  }
+  button.primary {
+    background-color: #007bff;
+  }
+  button.primary:hover {
+    background-color: #0056b3;
+  }
+  .request-history {
+    margin-top: 30px;
+  }
+  .request-history h3 {
+    text-align: center;
+    margin-bottom: 20px;
+    color: #343a40;
+  }
+  .request-cards {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+  }
+  .request-card {
+    background-color: #fff;
+    border-radius: 12px;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.08);
+    padding: 20px;
+    width: 300px;
+    transition: box-shadow 0.3s ease;
+  }
+  .request-card:hover {
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.12);
+  }
+  .card-header {
+    margin-bottom: 10px;
+    border-bottom: 1px solid #e9ecef;
+    padding-bottom: 10px;
+  }
+  .request-title {
+    margin-top: 0;
+    color: #343a40;
+  }
+  .request-description {
+    margin-bottom: 5px;
+    color: #495057;
+  }
+  .request-status {
+    margin-bottom: 5px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+  }
+  .status-badge {
+    padding: 5px 10px;
+    border-radius: 5px;
+    font-size: 0.9em;
+    font-weight: 500;
+    text-align: center;
+  }
+  .status-pending {
+    background-color: #fff3cd;
+    color: #856404;
+  }
+  .status-paid {
+    background-color: #d4edda;
+    color: #155724;
+  }
+  .status-overdue {
+    background-color: #f8d7da;
+    color: #721c24;
+  }
+  .status-partially-paid {
+    background-color: #cce5ff;
+    color: #004085;
+  }
+  .post-date {
+    font-size: 0.8em;
+    color: #555;
+    display: block;
+    text-align: right;
+  }
+ .section-separator {
+    border: 0;
+    height: 1px;
+    background: #e9ecef;
+    margin: 20px 0;
+ }
 </style>
