@@ -13,6 +13,16 @@
       let newTenantMoveInDate = "";
     let selectedUnitId = null;
      let showModal = false;
+     let searchQuery = "";
+
+     //searchQuery
+    $: filteredTenants = tenants.filter(tenant =>
+      tenant.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      tenant.username.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      tenant.email.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      (tenant.unit ? tenant.unit.unitName.toLowerCase().includes(searchQuery.toLowerCase()) : false) ||
+      tenant.contactNumber.toLowerCase().includes(searchQuery.toLowerCase())
+    );
   
   
     onMount(async () => {
@@ -69,7 +79,20 @@
   </script>
   
   <div class="main-container">
-  <h2>Tenant Management</h2>
+  <div class="main-header">Tenant Management</div>
+  <p class="subtext"> View a list of tenants and manage their information, including contact details, assigned units, and move-in dates. </p>
+
+  <!-- Search Input Field -->
+  <div class="search-add-container">
+    <div class="search-container">
+      <input
+        type="text"
+        placeholder="Search tenants"
+        bind:value={searchQuery}
+      />
+    </div>  
+    <button on:click={() => showModal = true}> Add Tenant </button>
+  </div>  
   
   {#if loading}
     <p>Loading tenants...</p>
@@ -89,7 +112,7 @@
         </tr>
       </thead>
       <tbody>
-        {#each tenants as tenant}
+        {#each filteredTenants as tenant}
           <tr>
             <td>{tenant.userId}</td>
             <td>{tenant.name}</td>
@@ -108,8 +131,8 @@
         {/each}
       </tbody>
     </table>
-  
-      <button on:click={() => showModal = true}> Add Tenant </button>
+
+  <!-- handle the Add Tenant Button -->
       {#if showModal}
          <div class="modal">
             <div class="modal-content">
@@ -161,6 +184,41 @@
     padding: 20px;
     margin-left: 300px;
   }
+
+  .search-add-container {
+  display: flex;
+  justify-content: space-between; 
+  align-items: center; 
+  margin-bottom: 20px;
+  }
+
+  .search-container {
+  flex: 1;
+  margin-right: 20px;
+  }
+
+  .search-container input {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 1em;
+  }
+
+  .main-header {
+  font-size: 2em; 
+  font-weight: bold; 
+  margin-top: 5px;
+  margin-bottom: 10px; 
+  }
+
+  .subtext {
+    font-size: 0.9em;
+    color: #666;
+    margin-top: 1px;
+    margin-bottom: 25px;
+  }
+
     table {
       width: 100%;
       border-collapse: collapse;
@@ -178,7 +236,7 @@
         flex-direction: column;
         align-items: center;
        margin-top: 20px;
-         width: 50%;
+         width: 100%;
          margin: 20px auto; /* Center the form */
       }
   
@@ -186,19 +244,22 @@
         margin-bottom: 10px;
           display: flex;
         flex-direction: column; /* Arrange labels and inputs vertically */
+        width: 100%;
       }
       label {
          text-align: left; /* Align labels to the left */
+         margin-bottom: 5px;
       }
           input[type="text"],
-       input[type="email"],
-     input[type="password"],
-     input[type="date"]
-          {
+          input[type="email"],
+          input[type="password"],
+          input[type="date"],
+          select {
               padding: 8px;
               border: 1px solid #ddd;
               border-radius: 4px;
                 width: 100%; /* Make input fields fill their container */
+              box-sizing: border-box;
           }
     button {
         padding: 10px 20px;
@@ -208,6 +269,7 @@
           border-radius: 4px;
         cursor: pointer;
           margin: 0 10px 10px 0;
+        white-space: nowrap;
       }
        button:hover {
          background-color: #0056b3;
@@ -227,7 +289,7 @@
            .modal-content {
               background-color: white;
                padding: 20px;
-              border-radius: 5px;
+              border-radius: 20px;
                 display: flex;
                flex-direction: column;
                text-align: center;

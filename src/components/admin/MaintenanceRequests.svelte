@@ -86,7 +86,8 @@
 </script>
 
 <div class="main-container">
-<h2>Maintenance Requests</h2>
+<div class="main-header">Maintenance Report</div>
+<p class="subtext"> View reports submitted by tenants regarding issues or fixtures that need attention. </p>
 
 {#if loading}
   <p>Loading requests...</p>
@@ -97,7 +98,7 @@
       {#each requests as request}
           <div class="request-card">
               <div class="card-header">
-                  <h3>Request #{request.requestId}</h3>
+                  <h3>Maintenance Request #{request.requestId}</h3>
                   <small class="request-date">
                       Posted on: {new Date(request.requestDate).toLocaleString()}
                   </small>
@@ -131,22 +132,28 @@
 
               {#if editingRequestId === request.requestId}
                   <div class="status-update">
+                    <div class ="status-row">
                       <label for="status">Status</label>
                       <select bind:value={editRequestStatus}>
                           <option value="open">Open</option>
                           <option value="in progress">In Progress</option>
                           <option value="resolved">Resolved</option>
-                          <option value="closed">Closed</option>
+                          <option value="closed">Closed</option>      
                       </select>
+                    </div>  
+                      <div class="update-buttons-container">
                       <button on:click={() => updateRequest(request.requestId)}>Update</button>
                       <button on:click={cancelEdit}>Cancel</button>
+                      </div>
                   </div>
               {:else}
                   <p class="status">
                       <strong>Status:</strong> {request.status}
+                  </p>
+                  <div class="button-container">
                       <button on:click={() => startEdit(request)} class="editbutton">Edit</button>
                       <button on:click={() => confirmDelete(request.requestId)} class="deletebutton">Delete</button>
-                  </p>
+                    </div>  
               {/if}
           </div>
       {/each}
@@ -185,9 +192,10 @@
       padding: 20px;
       margin-left: 300px;
     }
+
   .request-cards {
-      display: flex;
-      flex-wrap: wrap;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
       gap: 20px;
       justify-content: center;
   }
@@ -198,11 +206,19 @@
       box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
       padding: 20px;
       width: 300px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
   }
 
   .image-preview {
       margin: 10px 0;
       text-align: center;
+      dislay: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 150px;
   }
 
   .thumbnail {
@@ -254,15 +270,57 @@
   }
   .card-header {
       display: flex;
-      justify-content: space-between;
-      align-items: center;
+      flex-direction: column;
+      align-items: flex-start;;
       margin-bottom: 10px;
+  }
+
+  .main-header {
+  font-size: 2em; 
+  font-weight: bold; 
+  margin-top: 5px;
+  margin-bottom: 10px; 
+  }
+
+  .subtext {
+    font-size: 0.9em;
+    color: #666;
+    margin-top: 1px;
+    margin-bottom: 25px;
   }
 
   .status-update {
       display: flex;
+      flex-direction: column;
       gap: 10px;
       margin-top: 10px;
+  }
+
+  .status-update label {
+    margin-right: 10px;
+  }
+
+  .status-update select {
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    background-color: white;
+    width: 100%;
+  }
+
+  .status-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .status-update-container {
+    display: flex;
+    justify-content: center;    
+    gap: 10px;
+    margin-top: 10px;
+    align-items: center;
+    width: 100%;
   }
 
   .status-update button {
@@ -272,7 +330,6 @@
       border: none;
       border-radius: 4px;
       cursor: pointer;
-      margin: 0 10px 10px 0;
   }
 
   .status-update button:hover {
@@ -286,6 +343,7 @@
 
   .request-card p {
       margin-bottom: 5px;
+      position: relative;
   }
 
   .request-date {
@@ -313,6 +371,16 @@
 
   button:hover {
       background-color: #0056b3;
+  }
+
+  .button-container {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 10px;
+    align-items: flex-end;
+    flex-shrink: 0;
+    width: 100%;
   }
 
   .editbutton {
