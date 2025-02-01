@@ -29,6 +29,7 @@
     loading = true;
     try {
       announcements = await getAnnouncements();
+      announcements.sort((a, b) => new Date(b.postDate) - new Date(a.postDate)); // Sort by most recent date
     } catch (err) {
       error = err.message;
     } finally {
