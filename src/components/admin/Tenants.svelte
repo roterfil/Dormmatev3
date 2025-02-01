@@ -68,6 +68,7 @@
     }
   </script>
   
+  <div class="main-container">
   <h2>Tenant Management</h2>
   
   {#if loading}
@@ -150,8 +151,16 @@
           </div>
       {/if}
   {/if}
+</div>
   
   <style>
+
+  .main-container { 
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+    margin-left: 300px;
+  }
     table {
       width: 100%;
       border-collapse: collapse;
