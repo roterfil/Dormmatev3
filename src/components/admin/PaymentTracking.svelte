@@ -9,6 +9,15 @@
   let editingPaymentId = null;
   let editPaymentStatus = '';
   let selectedTenantId = null;
+  let searchQuery = ''; // Add searchQuery variable
+
+  // Computed property to filter units based on searchQuery
+  $: filteredPayments = payments.filter(payment =>
+    String(payment.paymentId).includes(searchQuery) ||
+    payment.tenant.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    payment.paymentDate.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    payment.status.toLowerCase().includes(searchQuery.toLowerCase())
+  );
 
   onMount(async () => {
     fetchPayments();
@@ -64,20 +73,22 @@
   <div class="main-header">Payment Tracking</div>
   <p class="subtext"> Mark rent payments as completed.</p>
 
+  <!-- Search Input Field -->
+  <div class="search-add-container">
+    <div class="search-container">
+      <input
+        type="text"
+        placeholder="Search payment"
+        bind:value={searchQuery}
+      />
+    </div>  
+  </div>  
+
   {#if loading}
     <p>Loading payments...</p>
   {:else if error}
     <p>Error: {error}</p>
   {:else}
-    <div>
-      <label for="tenant">Select Tenant:</label>
-      <select bind:value={selectedTenantId} on:change={updateSelectedTenant}>
-        <option value={null}>All</option>
-        {#each tenants as tenant}
-          <option value={tenant.tenantId}>{tenant.name}</option>
-        {/each}
-      </select>
-
       <table>
         <thead>
           <tr>
@@ -92,7 +103,7 @@
           </tr>
         </thead>
         <tbody>
-          {#each payments as payment}
+          {#each filteredPayments as payment}
             <tr>
               <td>{payment.paymentId}</td>
               <td>{payment.tenant.name}</td>
@@ -131,7 +142,6 @@
           {/each}
         </tbody>
       </table>
-    </div>
   {/if}
 </div>
 
@@ -159,6 +169,17 @@
     margin-bottom: 25px;
   }
 
+  .search-container {
+    margin-bottom: 20px;
+  }
+
+  .search-container input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 1em;
+  }
 
 table {
   width: 100%;

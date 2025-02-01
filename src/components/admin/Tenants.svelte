@@ -17,11 +17,11 @@
 
      //searchQuery
     $: filteredTenants = tenants.filter(tenant =>
+      String(tenant.userId).includes(searchQuery) ||
       tenant.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
       tenant.username.toLowerCase().includes(searchQuery.toLowerCase()) ||
       tenant.email.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      (tenant.unit ? tenant.unit.unitName.toLowerCase().includes(searchQuery.toLowerCase()) : false) ||
-      tenant.contactNumber.toLowerCase().includes(searchQuery.toLowerCase())
+      (tenant.unit ? tenant.unit.unitName.toLowerCase().includes(searchQuery.toLowerCase()) : false)
     );
   
   

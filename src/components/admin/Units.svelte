@@ -13,6 +13,14 @@
     let showModal = false;
     let deletingUnitId = null;
      let showDeleteConfirmation = false;
+    let searchQuery = ''; // Add searchQuery variable
+
+  // Computed property to filter units based on searchQuery
+  $: filteredUnits = units.filter(unit =>
+    String(unit.unitId).includes(searchQuery) ||
+    unit.unitName.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    unit.description.toLowerCase().includes(searchQuery.toLowerCase())
+  ); 
 
   onMount(async () => {
     fetchUnits();
@@ -108,13 +116,22 @@
   <div class="main-header">Units Management</div>
   <p class="subtext">Allows the admin to add and manage units. They can assign tenants to specific units and store tenant information, ensuring streamlined tracking and updates.</p>
 
+  <!-- Add Search Input Field -->
+  <div class="search-container">
+    <input
+      type="text"
+      bind:value={searchQuery}
+      placeholder="Search units..."
+    />
+  </div>
+
   {#if loading}
     <p>Loading units...</p>
   {:else if error}
     <p>Error: {error}</p>
   {:else}
     <div class="unit-cards">
-      {#each units as unit}
+      {#each filteredUnits as unit}
         <div class="unit-card">
           <div class="card-header">
             <h3>Unit ID No. {unit.unitId}</h3>
@@ -208,6 +225,18 @@
     margin-bottom: 25px;
   }
 
+  .search-container {
+    margin-bottom: 20px;
+  }
+
+  .search-container input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 1em;
+  }
+
   .unit-cards {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
@@ -226,7 +255,7 @@
 
   .unit-card p {
     margin-top: 5px;
-    margin-bottom:2px;
+    margin-bottom:8px;
   }
 
   .card-header h3 {
