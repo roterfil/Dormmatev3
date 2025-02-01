@@ -87,6 +87,7 @@
 
 <div class="main-container">
 <h2>Maintenance Requests</h2>
+<p class="subtext"> View reports submitted by tenants regarding issues or fixtures that need attention. </p>
 
 {#if loading}
   <p>Loading requests...</p>
@@ -190,10 +191,11 @@
       margin: 0 auto;
       padding: 20px;
       margin-left: 300px;
+      overflow-x: hidden;
     }
 
   .request-cards {
-      display: flex;
+      display: grid;
       grid-template-columns: repeat(3, 1fr);
       gap: 20px;
       justify-content: center;
@@ -272,6 +274,20 @@
       flex-direction: column;
       align-items: flex-start;;
       margin-bottom: 10px;
+  }
+
+  h2 {
+  font-size: 2em; 
+  font-weight: bold; 
+  margin-top: 5px;
+  margin-bottom: 10px; 
+  }
+
+  .subtext {
+    font-size: 0.9em;
+    color: #666;
+    margin-top: 1px;
+    margin-bottom: 25px;
   }
 
   .status-update {
