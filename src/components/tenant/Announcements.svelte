@@ -60,8 +60,8 @@
         margin-right: auto;
         padding: 20px;
         background-color: #f8f9fa;
-      border-radius: 10px;
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
     }
     h2 {
         text-align: center;
