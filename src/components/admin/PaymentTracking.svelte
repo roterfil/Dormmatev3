@@ -60,116 +60,146 @@
   }
 </script>
 
-<h2>Payment Tracking</h2>
+<div class="main-content">
+  <div class="main-header">Payment Tracking</div>
+  <p class="subtext"> Mark rent payments as completed.</p>
 
-{#if loading}
-  <p>Loading payments...</p>
-{:else if error}
-  <p>Error: {error}</p>
-{:else}
-  <div>
-    <label for="tenant">Select Tenant:</label>
-    <select bind:value={selectedTenantId} on:change={updateSelectedTenant}>
-      <option value={null}>All</option>
-      {#each tenants as tenant}
-        <option value={tenant.tenantId}>{tenant.name}</option>
-      {/each}
-    </select>
-
-    <table>
-      <thead>
-        <tr>
-          <th>ID</th>
-          <th>Tenant</th>
-          <th>Amount</th>
-          <th>Payment Date</th>
-          <th>Due Date</th>
-          <th>Status</th>
-          <th>Proof of Payment</th>
-          <th>Actions</th>
-        </tr>
-      </thead>
-      <tbody>
-        {#each payments as payment}
-          <tr>
-            <td>{payment.paymentId}</td>
-            <td>{payment.tenant.name}</td>
-            <td>${payment.amount}</td>
-            <td>{payment.paymentDate ? new Date(payment.paymentDate).toLocaleDateString() : "Pending"}</td>
-            <td>{new Date(payment.dueDate).toLocaleDateString()}</td>
-
-            {#if editingPaymentId === payment.paymentId}
-              <td>
-                <select bind:value={editPaymentStatus}>
-                  <option value="pending">Pending</option>
-                  <option value="paid">Paid</option>
-                  <option value="overdue">Overdue</option>
-                  <option value="partially paid">Partially Paid</option>
-                </select>
-              </td>
-              <td>
-                <button on:click={() => updatePaymentStatus(payment.paymentId)}>Update</button>
-                <button on:click={cancelEdit}>Cancel</button>
-              </td>
-            {:else}
-              <td>{payment.status}</td>
-              <td>
-                {#if payment.proofOfPayment}
-                  <img src={payment.proofOfPayment} alt="Proof of Payment" style="max-width: 200px; max-height: 200px;" />
-                {:else}
-                  No proof submitted
-                {/if}
-              </td>
-              <td>
-                <button on:click={() => startEdit(payment)}>Edit Status</button>
-                <button on:click={() => removePayment(payment.paymentId)} style="background-color: red;">Delete</button>
-              </td>
-            {/if}
-          </tr>
+  {#if loading}
+    <p>Loading payments...</p>
+  {:else if error}
+    <p>Error: {error}</p>
+  {:else}
+    <div>
+      <label for="tenant">Select Tenant:</label>
+      <select bind:value={selectedTenantId} on:change={updateSelectedTenant}>
+        <option value={null}>All</option>
+        {#each tenants as tenant}
+          <option value={tenant.tenantId}>{tenant.name}</option>
         {/each}
-      </tbody>
-    </table>
-  </div>
-{/if}
+      </select>
+
+      <table>
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Tenant</th>
+            <th>Amount</th>
+            <th>Payment Date</th>
+            <th>Due Date</th>
+            <th>Status</th>
+            <th>Proof of Payment</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          {#each payments as payment}
+            <tr>
+              <td>{payment.paymentId}</td>
+              <td>{payment.tenant.name}</td>
+              <td>${payment.amount}</td>
+              <td>{payment.paymentDate ? new Date(payment.paymentDate).toLocaleDateString() : "Pending"}</td>
+              <td>{new Date(payment.dueDate).toLocaleDateString()}</td>
+
+              {#if editingPaymentId === payment.paymentId}
+                <td>
+                  <select bind:value={editPaymentStatus}>
+                    <option value="pending">Pending</option>
+                    <option value="paid">Paid</option>
+                    <option value="overdue">Overdue</option>
+                    <option value="partially paid">Partially Paid</option>
+                  </select>
+                </td>
+                <td>
+                  <button on:click={() => updatePaymentStatus(payment.paymentId)}>Update</button>
+                  <button on:click={cancelEdit}>Cancel</button>
+                </td>
+              {:else}
+                <td>{payment.status}</td>
+                <td>
+                  {#if payment.proofOfPayment}
+                    <img src={payment.proofOfPayment} alt="Proof of Payment" style="max-width: 200px; max-height: 200px;" />
+                  {:else}
+                    No proof submitted
+                  {/if}
+                </td>
+                <td>
+                  <button on:click={() => startEdit(payment)} style="background-color: #007bff;">Edit Status</button>
+                  <button on:click={() => removePayment(payment.paymentId)} style="background-color: red;">Delete</button>
+                </td>
+              {/if}
+            </tr>
+          {/each}
+        </tbody>
+      </table>
+    </div>
+  {/if}
+</div>
 
 <style>
-  table {
-    width: 100%;
-    border-collapse: collapse;
+
+.main-content {
+  margin-left: 300px; /* Adjust this value based on the width of your sidebar */
+  padding: 20px;
+  width: calc(100% - 250px); /* Ensure the main content takes up the remaining space */
+  max-width: 1200px;
+  padding: 20px;
+}
+
+  .main-header {
+    font-size: 2em; 
+    font-weight: bold; 
+    margin-top: 5px;
+    margin-bottom: 10px; 
   }
 
-  th, td {
-    border: 1px solid #ddd;
-    padding: 8px;
-    text-align: center;
+  .subtext {
+    font-size: 0.9em;
+    color: #666;
+    margin-top: 1px;
+    margin-bottom: 25px;
   }
 
-  th {
-    background-color: #f0f0f0;
-  }
 
-  select {
-    padding: 8px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    background-color: white;
-  }
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
 
-  button {
-    padding: 10px 20px;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    margin: 0 5px;
-  }
+th, td {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: center;
+}
 
-  button:hover {
-    opacity: 0.8;
-  }
+th {
+  background-color: #f0f0f0;
+}
 
-  img {
-    display: block;
-    margin: auto;
-  }
+select {
+  padding: 8px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  background-color: white;
+}
+
+button {
+  padding: 10px 20px;
+  color: white;
+  background-color: #007bff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  margin: 0 5px;
+}
+
+button:hover {
+  opacity: 0.8;
+  background-color: #0056b3;
+}
+
+img {
+  display: block;
+  margin: auto;
+}
+
 </style>
