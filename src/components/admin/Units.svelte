@@ -104,80 +104,85 @@
 </script>
 
 
-<div class = "main-container">
-<h2>Unit Management</h2>
+<div class="main-container">
+  <div class="main-header">Units Management</div>
+  <p class="subtext">Allows the admin to add and manage units. They can assign tenants to specific units and store tenant information, ensuring streamlined tracking and updates.</p>
 
-{#if loading}
-  <p>Loading units...</p>
-{:else if error}
-  <p>Error: {error}</p>
-{:else}
-  <table>
-    <thead>
-      <tr>
-        <th>ID</th>
-        <th>Unit Name</th>
-        <th>Description</th>
-        <th>Actions</th>
-      </tr>
-    </thead>
-    <tbody>
+  {#if loading}
+    <p>Loading units...</p>
+  {:else if error}
+    <p>Error: {error}</p>
+  {:else}
+    <div class="unit-cards">
       {#each units as unit}
-        <tr>
-          <td>{unit.unitId}</td>
+        <div class="unit-card">
+          <div class="card-header">
+            <h3>Unit ID No. {unit.unitId}</h3>
+          </div>
           {#if editingUnitId === unit.unitId}
-            <td><input type="text" bind:value={editUnitName} /></td>
-            <td><input type="text" bind:value={editUnitDescription} /></td>
-            <td>
-              <button on:click={updateUnitData}>Update</button>
-              <button on:click={cancelEdit}>Cancel</button>
-            </td>
+            <div class="edit-form">
+              <div>
+                <label for="editUnitName">Unit Name:</label>
+                <input type="text" id="editUnitName" bind:value={editUnitName} required />
+              </div>
+              <div>
+                <label for="editUnitDescription">Description:</label>
+                <input type="text" id="editUnitDescription" bind:value={editUnitDescription} />
+              </div>
+              <div class="button-container">
+                <button on:click={updateUnitData}>Update</button>
+                <button on:click={cancelEdit}>Cancel</button>
+              </div>
+            </div>
           {:else}
-            <td>{unit.unitName}</td>
-            <td>{unit.description}</td>
-            <td>
+            <p><strong>Unit Name:</strong> {unit.unitName}</p>
+            <p><strong>Description:</strong> {unit.description}</p>
+            <div class="button-container">
               <button on:click={() => startEdit(unit)} class="editbutton">Edit</button>
               <button on:click={() => confirmDelete(unit.unitId)} class="deletebutton">Delete</button>
-            </td>
+            </div>
           {/if}
-        </tr>
+        </div>
       {/each}
-    </tbody>
-  </table>
-{/if}
-
-<button on:click={() => (showModal = true)}>Add Unit</button>
-{#if showModal}
-  <div class="modal">
-    <div class="modal-content">
-      <form on:submit|preventDefault={handleSubmit}>
-        <h2>Add New Unit</h2>
-        <div>
-          <label for="unitName">Unit Name:</label>
-          <input type="text" id="unitName" bind:value={newUnitName} required />
-        </div>
-        <div>
-          <label for="description">Description:</label>
-          <input type="text" id="description" bind:value={newUnitDescription} />
-        </div>
-        <button type="submit">Add Unit</button>
-        <button on:click={() => (showModal = false)}>Cancel</button>
-      </form>
     </div>
-  </div>
-{/if}
-{#if showDeleteConfirmation}
-  <div class="modal">
-    <div class="modal-content">
-      <h2>Confirm Deletion</h2>
-      <p>Are you sure you want to delete this unit?</p>
-      <div>
-        <button on:click={handleDelete} class="editbutton">Yes</button>
-        <button on:click={cancelDelete} class="deletebutton">Cancel</button>
+  {/if}
+
+  <button on:click={() => (showModal = true)} class="addbutton">Add Unit</button>
+
+  {#if showModal}
+    <div class="modal">
+      <div class="modal-content">
+        <form on:submit|preventDefault={handleSubmit}>
+          <h2>Add New Unit</h2>
+          <div>
+            <label for="unitName">Unit Name:</label>
+            <input type="text" id="unitName" bind:value={newUnitName} required />
+          </div>
+          <div>
+            <label for="description">Description:</label>
+            <input type="text" id="description" bind:value={newUnitDescription} />
+          </div>
+          <button type="submit">Add Unit</button>
+          <button type="button" on:click={() => (showModal = false)}>Cancel</button>
+        </form>
       </div>
     </div>
-  </div>
-{/if}
+  {/if}
+
+  {#if showDeleteConfirmation}
+    <div class="modal">
+      <div class="modal-content">
+        <div class="delete-modal">
+        <h2>Confirm Deletion</h2>
+        <p>Are you sure you want to delete this unit?</p>
+        <div>
+          <button on:click={handleDelete} class="editbutton">Yes</button>
+          <button on:click={cancelDelete} class="deletebutton">Cancel</button>
+        </div>
+        </div>
+      </div>
+    </div>
+  {/if}
 </div>
 
 <style>
@@ -188,18 +193,53 @@
     padding: 20px;
     margin-left: 300px;
   }
-  table {
-    width: 100%;
-    border-collapse: collapse;
+
+  .main-header {
+    font-size: 2em; 
+    font-weight: bold; 
+    margin-top: 5px;
+    margin-bottom: 10px; 
   }
-  th,
-  td {
-    border: 1px solid #ddd;
-    padding: 8px;
+
+  .subtext {
+    font-size: 0.9em;
+    color: #666;
+    margin-top: 1px;
+    margin-bottom: 25px;
   }
-  th {
-    background-color: #f0f0f0;
+
+  .unit-cards {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
   }
+
+  .unit-card {
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+  }
+
+  .unit-card p {
+    margin-top: 5px;
+    margin-bottom:2px;
+  }
+
+  .card-header h3 {
+    margin: 0;
+    font-size: 1.5em;
+  }
+
+  .edit-form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
     form {
       display: flex;
       flex-direction: column;
@@ -226,53 +266,116 @@
          width: 100%; /* Make input fields fill their container */
     }
 
+  .edit-form input {
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    width: 100%;
+  }
+
+  .button-container {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 10px;
+    align-items: flex-end;
+    flex-shrink: 0;
+    width: 100%;
+  }
+
+  .addbutton {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    z-index: 1000 
+  }
+
   button {
     padding: 10px 20px;
-        background-color: #007bff;
-        color: white;
-       border: none;
-       border-radius: 4px;
-       cursor: pointer;
-      margin: 0 10px 10px 0;
-    }
-    button:hover {
-      background-color: #0056b3;
-    }
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
 
-      .editbutton {
-        background-color: green;
-    }
+  button:hover {
+    background-color: #0056b3;
+  }
 
-    .editbutton:hover {
-        background-color: rgb(1, 63, 1);
-   }
+  .editbutton {
+    background-color: green;
+  }
 
-   .deletebutton {
-        background-color: red;
-    }
+  .editbutton:hover {
+    background-color: rgb(1, 63, 1);
+  }
 
-    .deletebutton:hover {
-      background-color: rgb(135, 0, 0);
-    }
-   .modal {
-        position: fixed;
-        top: 0;
-       left: 0;
-        width: 100%;
-        height: 100%;
-         background-color: rgba(0, 0, 0, 0.5); /* semi-transparent black */
-      display: flex;
-        justify-content: center;
-       align-items: center;
-        z-index: 1000;
-    }
- .modal-content {
-       background-color: white;
-     padding: 20px;
-      border-radius: 5px;
-      display: flex;
+  .deletebutton {
+    background-color: red;
+  }
+
+  .delete-modal {
+    justify-content: center;
+    display: flex;
     flex-direction: column;
-      text-align: center;
-        width: 400px;
-    }
+    align-items: center;
+  }
+
+  .deletebutton:hover {
+    background-color: rgb(135, 0, 0);
+  }
+
+  .modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+  }
+
+  .modal-content {
+    background-color: white;
+    padding: 20px;
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: 400px;
+  }
+
+  form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  form div {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+  }
+
+  label {
+    font-weight: bold;
+  }
+
+  input[type="text"] {
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    width: 100%;
+  }
+
 </style>
