@@ -86,7 +86,7 @@
 </script>
 
 <div class="main-container">
-<h2>Maintenance Requests</h2>
+<div class="main-header">Tenant Management</div>
 <p class="subtext"> View reports submitted by tenants regarding issues or fixtures that need attention. </p>
 
 {#if loading}
@@ -191,7 +191,6 @@
       margin: 0 auto;
       padding: 20px;
       margin-left: 300px;
-      overflow-x: hidden;
     }
 
   .request-cards {
@@ -276,7 +275,7 @@
       margin-bottom: 10px;
   }
 
-  h2 {
+  .main-header {
   font-size: 2em; 
   font-weight: bold; 
   margin-top: 5px;
