@@ -165,7 +165,13 @@
         </div>
         <div>
           <label for="content">Announcement Content:</label>
-          <input type="text" id="content" bind:value={newAnnouncementContent} required />
+          <textarea
+            id="content" 
+            bind:value={newAnnouncementContent} 
+            required 
+            rows="3"
+            style="resize: vertical; width: 100; box-sizing: border-box;"
+            ></textarea>
         </div>
         <div class="modal-buttons">
         <button type="submit">Add Announcement</button>
@@ -357,4 +363,15 @@
     width: 50%;
     margin-top: 20px;
    }
+
+  textarea {
+   padding: 12px; /* Match input field padding */
+   border: 1px solid #ddd;
+   border-radius: 4px;
+   width: 100%; /* Make textarea take full width */
+   font-size: 1em; /* Match input field font size */
+   resize: vertical; /* Allow vertical resizing */
+   box-sizing: border-box; /* Ensure padding and border are included in width */
+   min-height: 100px; /* Set a minimum height */
+}
 </style>
