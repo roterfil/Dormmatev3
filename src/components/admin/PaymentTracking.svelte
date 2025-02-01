@@ -61,7 +61,9 @@
 </script>
 
 <div class="main-content">
-  <h2>Payment Tracking</h2>
+  <div class="main-header">Payment Tracking</div>
+  <p class="subtext"> Mark rent payments as completed.</p>
+
   {#if loading}
     <p>Loading payments...</p>
   {:else if error}
@@ -136,10 +138,27 @@
 <style>
 
 .main-content {
-  margin-left: 250px; /* Adjust this value based on the width of your sidebar */
+  margin-left: 300px; /* Adjust this value based on the width of your sidebar */
   padding: 20px;
   width: calc(100% - 250px); /* Ensure the main content takes up the remaining space */
+  max-width: 1200px;
+  padding: 20px;
 }
+
+  .main-header {
+    font-size: 2em; 
+    font-weight: bold; 
+    margin-top: 5px;
+    margin-bottom: 10px; 
+  }
+
+  .subtext {
+    font-size: 0.9em;
+    color: #666;
+    margin-top: 1px;
+    margin-bottom: 25px;
+  }
+
 
 table {
   width: 100%;
