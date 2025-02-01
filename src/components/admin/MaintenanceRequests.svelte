@@ -131,15 +131,19 @@
 
               {#if editingRequestId === request.requestId}
                   <div class="status-update">
+                    <div class ="status-row">
                       <label for="status">Status</label>
                       <select bind:value={editRequestStatus}>
                           <option value="open">Open</option>
                           <option value="in progress">In Progress</option>
                           <option value="resolved">Resolved</option>
-                          <option value="closed">Closed</option>
+                          <option value="closed">Closed</option>      
                       </select>
+                    </div>  
+                      <div class="update-buttons-container">
                       <button on:click={() => updateRequest(request.requestId)}>Update</button>
                       <button on:click={cancelEdit}>Cancel</button>
+                      </div>
                   </div>
               {:else}
                   <p class="status">
@@ -211,7 +215,7 @@
       text-align: center;
       dislay: flex;
       flex-direction: column;
-      align-items center;
+      align-items: center;
       justify-content: center;
       min-height: 150px;
   }
@@ -272,8 +276,36 @@
 
   .status-update {
       display: flex;
+      flex-direction: column;
       gap: 10px;
       margin-top: 10px;
+  }
+
+  .status-update label {
+    margin-right: 10px;
+  }
+
+  .status-update select {
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    background-color: white;
+    width: 100%;
+  }
+
+  .status-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .status-update-container {
+    display: flex;
+    justify-content: center;    
+    gap: 10px;
+    margin-top: 10px;
+    align-items: center;
+    width: 100%;
   }
 
   .status-update button {
@@ -283,7 +315,6 @@
       border: none;
       border-radius: 4px;
       cursor: pointer;
-      margin: 0 10px 10px 0;
   }
 
   .status-update button:hover {
@@ -325,10 +356,6 @@
 
   button:hover {
       background-color: #0056b3;
-  }
-
-  .status {
-    margin-bottom: 10px;
   }
 
   .button-container {
