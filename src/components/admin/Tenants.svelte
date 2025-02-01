@@ -289,7 +289,7 @@
            .modal-content {
               background-color: white;
                padding: 20px;
-              border-radius: 40px;
+              border-radius: 20px;
                 display: flex;
                flex-direction: column;
                text-align: center;

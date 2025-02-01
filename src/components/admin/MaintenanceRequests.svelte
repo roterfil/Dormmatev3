@@ -86,7 +86,7 @@
 </script>
 
 <div class="main-container">
-<div class="main-header">Tenant Management</div>
+<div class="main-header">Maintenance Report</div>
 <p class="subtext"> View reports submitted by tenants regarding issues or fixtures that need attention. </p>
 
 {#if loading}
