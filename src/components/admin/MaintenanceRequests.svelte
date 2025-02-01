@@ -97,7 +97,7 @@
       {#each requests as request}
           <div class="request-card">
               <div class="card-header">
-                  <h3>Request #{request.requestId}</h3>
+                  <h3>Maintenance Request #{request.requestId}</h3>
                   <small class="request-date">
                       Posted on: {new Date(request.requestDate).toLocaleString()}
                   </small>
@@ -144,9 +144,11 @@
               {:else}
                   <p class="status">
                       <strong>Status:</strong> {request.status}
+                  </p>
+                  <div class="button-container">
                       <button on:click={() => startEdit(request)} class="editbutton">Edit</button>
                       <button on:click={() => confirmDelete(request.requestId)} class="deletebutton">Delete</button>
-                  </p>
+                    </div>  
               {/if}
           </div>
       {/each}
@@ -185,9 +187,10 @@
       padding: 20px;
       margin-left: 300px;
     }
+
   .request-cards {
       display: flex;
-      flex-wrap: wrap;
+      grid-template-columns: repeat(3, 1fr);
       gap: 20px;
       justify-content: center;
   }
@@ -198,11 +201,19 @@
       box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
       padding: 20px;
       width: 300px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
   }
 
   .image-preview {
       margin: 10px 0;
       text-align: center;
+      dislay: flex;
+      flex-direction: column;
+      align-items center;
+      justify-content: center;
+      min-height: 150px;
   }
 
   .thumbnail {
@@ -254,8 +265,8 @@
   }
   .card-header {
       display: flex;
-      justify-content: space-between;
-      align-items: center;
+      flex-direction: column;
+      align-items: flex-start;;
       margin-bottom: 10px;
   }
 
@@ -286,6 +297,7 @@
 
   .request-card p {
       margin-bottom: 5px;
+      position: relative;
   }
 
   .request-date {
@@ -313,6 +325,20 @@
 
   button:hover {
       background-color: #0056b3;
+  }
+
+  .status {
+    margin-bottom: 10px;
+  }
+
+  .button-container {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 10px;
+    align-items: flex-end;
+    flex-shrink: 0;
+    width: 100%;
   }
 
   .editbutton {
