@@ -179,10 +179,10 @@
   <style>
 
   .main-container { 
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 20px;
-    margin-left: 300px;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+  margin-left: 300px;
   }
 
   .search-add-container {
@@ -213,86 +213,86 @@
   }
 
   .subtext {
-    font-size: 0.9em;
-    color: #666;
-    margin-top: 1px;
-    margin-bottom: 25px;
+  font-size: 0.9em;
+  color: #666;
+  margin-top: 1px;
+  margin-bottom: 25px;
   }
 
-    table {
-      width: 100%;
-      border-collapse: collapse;
-    }
-    th,
-    td {
-      border: 1px solid #ddd;
-      padding: 8px;
-    }
-    th {
-      background-color: #f0f0f0;
-    }
-      form {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-       margin-top: 20px;
-         width: 100%;
-         margin: 20px auto; /* Center the form */
-      }
-  
-      form div {
-        margin-bottom: 10px;
-          display: flex;
-        flex-direction: column; /* Arrange labels and inputs vertically */
-        width: 100%;
-      }
-      label {
-         text-align: left; /* Align labels to the left */
-         margin-bottom: 5px;
-      }
-          input[type="text"],
-          input[type="email"],
-          input[type="password"],
-          input[type="date"],
-          select {
-              padding: 8px;
-              border: 1px solid #ddd;
-              border-radius: 4px;
-                width: 100%; /* Make input fields fill their container */
-              box-sizing: border-box;
-          }
-    button {
-        padding: 10px 20px;
-         background-color: #007bff;
-          color: white;
-        border: none;
-          border-radius: 4px;
-        cursor: pointer;
-          margin: 0 10px 10px 0;
-        white-space: nowrap;
-      }
-       button:hover {
-         background-color: #0056b3;
-       }
-        .modal {
-              position: fixed;
-              top: 0;
-                left: 0;
-             width: 100%;
-              height: 100%;
-             background-color: rgba(0, 0, 0, 0.5); /* semi-transparent black */
-        display: flex;
-          justify-content: center;
-             align-items: center;
-              z-index: 1000;
-           }
-           .modal-content {
-              background-color: white;
-               padding: 20px;
-              border-radius: 20px;
-                display: flex;
-               flex-direction: column;
-               text-align: center;
-               width: 400px;
-          }
-    </style>
+  table {
+  width: 100%;
+  border-collapse: collapse;
+  }
+  th,
+  td {
+  border: 1px solid #ddd;
+  padding: 8px;
+  }
+  th {
+  background-color: #f0f0f0;
+  }
+  form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 20px;
+  width: 100%;
+  margin: 20px auto; /* Center the form */
+  }
+
+  form div {
+  margin-bottom: 10px;
+  display: flex;
+  flex-direction: column; /* Arrange labels and inputs vertically */
+  width: 100%;
+  }
+  label {
+  text-align: left; /* Align labels to the left */
+  margin-bottom: 5px;
+  }
+  input[type="text"],
+  input[type="email"],
+  input[type="password"],
+  input[type="date"],
+  select {
+  padding: 8px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  width: 100%; /* Make input fields fill their container */
+  box-sizing: border-box;
+  }
+  button {
+  padding: 10px 20px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  margin: 0 10px 10px 0;
+  white-space: nowrap;
+  }
+  button:hover {
+  background-color: #0056b3;
+  }
+  .modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5); /* semi-transparent black */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  }
+  .modal-content {
+  background-color: white;
+  padding: 20px;
+  border-radius: 20px;
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  width: 400px;
+  }
+  </style>

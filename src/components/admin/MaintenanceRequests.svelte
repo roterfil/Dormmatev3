@@ -135,16 +135,18 @@
                     <div class ="status-row">
                       <label for="status">Status</label>
                       <select bind:value={editRequestStatus}>
-                          <option value="open">Open</option>
-                          <option value="in progress">In Progress</option>
-                          <option value="resolved">Resolved</option>
-                          <option value="closed">Closed</option>      
+                          <option value="OPEN">OPEN</option>
+                          <option value="IN PROGRESS">IN PROGRESS</option>
+                          <option value="RESOLVED">RESOLVED</option>
+                          <option value="CLOSED">CLOSED</option>      
                       </select>
-                    </div>  
+                    </div> 
+                    <div class="button-container"> 
                       <div class="update-buttons-container">
-                      <button on:click={() => updateRequest(request.requestId)}>Update</button>
-                      <button on:click={cancelEdit}>Cancel</button>
+                      <button on:click={() => updateRequest(request.requestId)} class="editbutton">Update</button>
+                      <button on:click={cancelEdit} class="deletebutton">Cancel</button>
                       </div>
+                    </div>
                   </div>
               {:else}
                   <p class="status">
