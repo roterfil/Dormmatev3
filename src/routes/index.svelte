@@ -32,35 +32,25 @@
 <div class="app">
   <aside class="sidebar">
     <div class="sidebar-header">
-      <Link to="/" class="logo-link">
-        <img src="./assets/dormmate-logo.png" alt="DormMate Logo" class="logo" />
-      </Link>
-      <h1>DormMate</h1>
+      <div class="logo-container">
+        <img src="/assets/dormmate-logo.png" alt="DormMate" class="logo" />
+        <h1 class="brand">DormMate</h1>
+        <p class="tagline">Manage your dorm with ease</p>
+        <hr>
+      </div>
     </div>
 
-    {#if isLoggedIn}
-      <ul>
-        {#if userRole === 'admin'}
-          <li><Link to="/admin">Dashboard</Link></li>
-          <li><Link to="/admin/units">Unit Management</Link></li>
-          <li><Link to="/admin/tenants">Payment Tracking</Link></li>
-          <li><Link to="/admin/announcements">Bulletin Board</Link></li>
-          <li><Link to="/admin/maintenance">Maintenance Requests</Link></li>
-        {:else if userRole === 'tenant'}
-          <li><Link to="/tenant">Dashboard</Link></li>
-          <li><Link to="/tenant/announcements">Announcements</Link></li>
-          <li><Link to="/tenant/payments">Send Payments</Link></li>
-          <li><Link to="/tenant/maintenance">Maintenance</Link></li>
-        {/if}
-      </ul>
-      <div class="button-contaier">
-        <button on:click={handleLogout} class="logout-button">Logout</button>
-      </div>
-    {:else}
-      <div class="button-container">
-        <button on:click={gotoAdminLogin} class="login-button">Login</button>
-      </div>
-    {/if}
+    <!-- Move the logout button to the bottom of the sidebar -->
+    <div class="footer-links">
+      <Link to="/login">
+        <button class="logout-button" on:click={handleLogout}>
+          <svg xmlns="http://www.w3.org/2000/svg" class="icon" viewBox="0 0 20 20" fill="currentColor">
+            <path fill-rule="evenodd" d="M3 3a1 1 0 00-1 1v12a1 1 0 102 0V4a1 1 0 00-1-1zm10.293 9.293a1 1 0 001.414 1.414l3-3a1 1 0 000-1.414l-3-3a1 1 0 10-1.414 1.414L14.586 9H7a1 1 0 100 2h7.586l-1.293 1.293z" clip-rule="evenodd" />
+          </svg>
+          Log in
+        </button>
+      </Link>
+    </div>
   </aside>
 
     <main class="main-content">
@@ -124,91 +114,91 @@
 
 <style>
 
-   .app {
-        display: flex;
-        min-height: 100vh;
-    }
+.app {
+    display: flex;
+    min-height: 100vh;
+}
 
-    .sidebar {
-        background-color: #051650; /* Updated sidebar color */
-        color: white;
-        width: 250px;
-        padding: 1rem;
-        position: fixed; /* Fix the sidebar */
-        height: 100vh; /* Full viewport height */
-        top: 0;
-        left: 0;
-        display: flex;
-        flex-direction: column;
-        justify-content: space-between; /* Added for logout button */
-        text-align: center;
-        border-radius: 0 20px 20px 0;
-        z-index: 1000; /* Ensure sidebar is above other content */
-        overflow-y: auto; /* Add scroll if content overflows */
-        gap: 2rem;
-    }
+.sidebar {
+    background-color: #051650;
+    color: white;
+    width: 250px;
+    padding: 1rem;
+    position: fixed;
+    height: 100vh;
+    top: 0;
+    left: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    text-align: center;
+    border-radius: 0 20px 20px 0;
+    z-index: 1000;
+    overflow-y: auto;
+}
 
-    .sidebar-header {
-        margin-bottom: 20px;
-    }
+.logo-container {
+    text-align: center;
+}
 
-    .logo-link {
-      display: block; /* Make the logo a block element for proper centering */
-      text-align: center; /* Center the logo within the container */
-      margin-bottom: 10px; /* Give spacing under the logo */
-    }
+.logo {
+    width: 80px;
+    height: 80px;
+    margin-top: 10px;
+    margin-bottom: -10px;
+}
 
-    .logo {
-      margin-bottom: 10px;
-      height: 40px; /* Adjust as necessary */
-        display: block;
-         margin-left: auto;
-          margin-right: auto;
-  }
+.brand {
+    font-size: 1.5rem;
+    font-weight: 800;
+    color: #00ffff;
+    margin: 0;
+}
 
-    .sidebar h1 {
-        margin-bottom: 20px; /* Add space below the title */
-        font-family: var(--main-font);
-    }
-    .sidebar ul {
-        list-style: none;
-        padding: 0;
-         font-family: var(--main-font);
-    }
+.tagline {
+    font-size: 0.875rem;
+    color: #b3e0e0;
+    margin: 0.5rem 0 0 0;
+}
 
-    .sidebar li {
-        margin-bottom: 10px;
-    }
+.footer-links {
+    margin-top: auto;
+    width: 100%;
+    padding: 0 1rem;
+    box-sizing: border-box;
+}
 
-    .main-content {
-      flex-grow: 1;
-       padding: 20px;
-        display: flex;
-        flex-direction: column;
-      overflow-y: auto;
-       margin-left: 250px;
+.logout-button {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+    padding: 0.75rem;
+    background-color: rgba(255, 255, 255, 0.1);
+    color: white;
+    border: none;
+    border-radius: 0.5rem;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    margin-bottom: 3rem;
+}
 
-    }
+.logout-button:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+}
 
+.icon {
+    width: 1.25rem;
+    height: 1.25rem;
+}
 
-    .logout-button {
-        background-color: #d9534f;
-        border: none;
-        color: white;
-        padding: 10px 20px;
-        text-align: center;
-        text-decoration: none;
-        display: block;
-        font-size: 16px;
-        margin: 10px 0;
-        cursor: pointer;
-        border-radius: 4px;
-        width: 100%;
-        font-family: var(--main-font);
-    }
-    .logout-button:hover {
-        background-color: #c9302c;
-    }
+.main-content {
+    flex: 1;
+    padding: 2rem;
+    background-color: #f5f5f5;
+    margin-left: 250px;
+}
 
     .button-container {
     display: flex;

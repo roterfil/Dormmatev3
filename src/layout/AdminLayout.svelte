@@ -26,7 +26,7 @@
 <div class="layout-container">
     <aside class="sidebar">
         <div class="logo-container">
-            <img src="./assets/dormmate-logo.png" alt="DormMate" class="logo" />
+            <img src="/assets/dormmate-logo.png" alt="DormMate" class="logo" />
             <h1 class="brand">DormMate</h1>
             <p class="tagline">Manage your dorm with ease</p>
             <hr>
@@ -46,6 +46,13 @@
                     <path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z" />
                 </svg>
                 Unit Management
+            </a>
+
+            <a href="/admin/tenants" class="nav-item">
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon" viewBox="0 0 20 20" fill="currentColor">
+                    <path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z" />
+                </svg>
+                Tenant Management
             </a>
 
             <a href="/admin/payment" class="nav-item">

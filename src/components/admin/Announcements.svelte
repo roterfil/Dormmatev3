@@ -29,6 +29,7 @@
     loading = true;
     try {
       announcements = await getAnnouncements();
+      announcements.sort((a, b) => new Date(b.postDate) - new Date(a.postDate)); // Sort by most recent date
     } catch (err) {
       error = err.message;
     } finally {
@@ -104,7 +105,8 @@
 </script>
 
 <div class="main-container">
-<h2>Bulletin Board</h2>
+<div class="main-header">Bulletin Board</div>
+<p class="subtext"> Post announcements related to dorm updates, power interruptions, or other important information. </p>
 
 {#if loading}
   <p>Loading announcements...</p>
@@ -117,30 +119,42 @@
         <div class="card-header">
              {#if editingAnnouncementId === announcement.announcementId}
                 <input type="text" bind:value={editAnnouncementTitle}/>
-                <div class="button-container">
-                <button on:click={() => updateAnnouncementData(announcement.announcementId)} class = "editbutton"> Update</button>
-                 <button on:click={cancelEdit} class="deletebutton">Cancel</button>
-                </div>
-             {:else}
+              {:else}
+              <div class="title-date-container">
                 <h3>{announcement.title}</h3>
-                  <button on:click={() => confirmDelete(announcement.announcementId)} class="deletebutton"> Delete</button>
-                  <button on:click={() => startEdit(announcement)} class = "editbutton">Edit</button>
+                <small class="post-date">Posted on: {new Date(announcement.postDate).toLocaleString()}</small>        
+              </div>  
+                <div class="posted-by"> Posted by Admin</div>
               {/if}
         </div>
-      <p>
-        {#if editingAnnouncementId === announcement.announcementId}
-            <input type="text" bind:value={editAnnouncementContent}/>
-        {:else}
-            {announcement.content}
-       {/if}
-      </p>
-        <small class="post-date">Posted on: {new Date(announcement.postDate).toLocaleString()}</small>
+
+        <p>
+          {#if editingAnnouncementId === announcement.announcementId}
+              <input type="text" bind:value={editAnnouncementContent}/>
+          {:else}
+              {announcement.content}
+          {/if}
+        </p>
+
+        <!-- Edit Delete Button -->
+        <div class="button-container">
+          {#if editingAnnouncementId === announcement.announcementId}
+              <button on:click={() => updateAnnouncementData(announcement.announcementId)} class = "editbutton"> Update</button>
+              <button on:click={cancelEdit} class="deletebutton">Cancel</button>
+                {:else}
+                  <button on:click={() => confirmDelete(announcement.announcementId)} class="deletebutton"> Delete</button>
+                  <button on:click={() => startEdit(announcement)} class = "editbutton">Edit</button>
+                {/if}  
+              </div>
       </div>
     {/each}
   </div>
 {/if}
 
+<!-- Announcement Button -->
 <button on:click={() => (showModal = true)} class = "addbutton">Add Announcement</button>
+
+<!-- Announcement Modal -->
 {#if showModal}
   <div class="modal">
     <div class="modal-content">
@@ -152,14 +166,24 @@
         </div>
         <div>
           <label for="content">Announcement Content:</label>
-          <input type="text" id="content" bind:value={newAnnouncementContent} required />
+          <textarea
+            id="content" 
+            bind:value={newAnnouncementContent} 
+            required 
+            rows="3"
+            style="resize: vertical; width: 100; box-sizing: border-box;"
+            ></textarea>
         </div>
+        <div class="modal-buttons">
         <button type="submit">Add Announcement</button>
         <button on:click={() => (showModal = false)}>Cancel</button>
+        </div>
       </form>
     </div>
   </div>
 {/if}
+
+<!-- Delete Confirmation Modal --> 
 {#if showDeleteConfirmation}
     <div class="modal">
       <div class="modal-content">
@@ -181,6 +205,21 @@
       padding: 20px;
       margin-left: 300px;
   }
+
+  .main-header {
+    font-size: 2em; 
+    font-weight: bold; 
+    margin-top: 5px;
+    margin-bottom: 10px; 
+  }
+
+  .subtext {
+    font-size: 0.9em;
+    color: #666;
+    margin-top: 1px;
+    margin-bottom: 25px;
+  }
+
   .announcement-list {
     display: flex;
     flex-direction: column;
@@ -192,53 +231,76 @@
       border-radius: 8px;
       padding: 20px;
       box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      position: relative;
    }
+
+  .posted-by {
+    font-size: 0.8em;
+    color: #666;
+    margin-top: 0;
+    margin-bottom: 5px;
+  } 
    .card-header {
      display: flex;
-     justify-content: space-between;
-       align-items: center;
+     flex-direction: column;
+     align-items: flex-start;
+    margin-bottom: 10px; 
+ }
+
+ .title-date-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%
  }
 
   .button-container {
     display: flex;
+    justify-content: flex-end;
     gap: 10px;
+    margin-top: 10px;
   }
 .announcement-card h3 {
       margin-top: 0;
+      margin-bottom: 5px;
 }
 .announcement-card p {
    margin-bottom: 10px;
     line-height: 1.5;
   }
+  
  .post-date {
-      display: block;
-      text-align: right;
       font-size: 0.8em;
-    color: gray;
+      color: gray;
+      margin-left: 10px;
  }
     form {
       display: flex;
       flex-direction: column;
       align-items: center;
      margin-top: 20px;
-      width: 50%;
+      width: 100%;
        margin: 20px auto; /* Center the form */
     }
 
     form div {
-      margin-bottom: 10px;
-       display: flex;
-     flex-direction: column; /* Arrange labels and inputs vertically */
+      margin-bottom: 20px;
+      display: flex;
+      flex-direction: column;
+      width: 100%;
     }
 
    label {
       text-align: left; /* Align labels to the left */
+      margin-bottom: 5px;
     }
      input[type="text"]{
-       padding: 8px;
+       padding: 12px;
        border: 1px solid #ddd;
        border-radius: 4px;
           width: 100%; /* Make input fields fill their container */
+        box-sizing: border-box; 
+        font-size: 1em;    
      }
    button {
         padding: 10px 20px;
@@ -247,7 +309,8 @@
         border: none;
        border-radius: 4px;
         cursor: pointer;
-      margin: 0 10px 10px 0;
+      margin:  0 10px 10px 0;
+      white-space: nowrap;
     }
        button:hover {
         background-color: #0056b3;
@@ -260,8 +323,16 @@
         background-color: rgb(135, 0, 0);
   }
       .addbutton{
-        display: block;
-         margin: 0 auto;
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        padding: 10px 20px;
+        background-color: #007bff;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        z-index: 1000
     }
         .modal {
              position: fixed;
@@ -275,13 +346,33 @@
           align-items: center;
           z-index: 1000;
         }
+
    .modal-content {
       background-color: white;
        padding: 20px;
-       border-radius: 5px;
+       border-radius: 20px;
        display: flex;
           flex-direction: column;
-       text-align: center;
-        width: 400px;
+       text-align: left;
+        width: 600px;
    }
+
+   .modal-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    width: 50%;
+    margin-top: 20px;
+   }
+
+  textarea {
+   padding: 12px; /* Match input field padding */
+   border: 1px solid #ddd;
+   border-radius: 4px;
+   width: 100%; /* Make textarea take full width */
+   font-size: 1em; /* Match input field font size */
+   resize: vertical; /* Allow vertical resizing */
+   box-sizing: border-box; /* Ensure padding and border are included in width */
+   min-height: 100px; /* Set a minimum height */
+}
 </style>
