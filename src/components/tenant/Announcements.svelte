@@ -55,7 +55,9 @@
 <style>
    .container {
         max-width: 800px;
-        margin: 20px auto;
+        margin-top: 20px;
+        margin-left: 435px;
+        margin-right: auto;
         padding: 20px;
         background-color: #f8f9fa;
       border-radius: 10px;
