@@ -35,28 +35,56 @@
   async function handleUpdatePassword(event) {
     event.preventDefault();
     passwordError = null;
-    if (newPassword !== confirmNewPassword) {
-      passwordError = 'Passwords do not match';
+    
+    // Basic validation
+    if (!currentPassword || !newPassword || !confirmNewPassword) {
+      passwordError = 'All fields are required';
       return;
     }
+
+    if (newPassword !== confirmNewPassword) {
+      passwordError = 'New passwords do not match';
+      return;
+    }
+
+    if (newPassword === currentPassword) {
+      passwordError = 'New password must be different from current password';
+      return;
+    }
+
+    // Password strength validation
+    if (newPassword.length < 8) {
+      passwordError = 'New password must be at least 8 characters long';
+      return;
+    }
+
     try {
-      const updatedUser = {
+        const updatedUser = {
         password: newPassword,
       };
+      
       await updateUser(userId, updatedUser);
-      console.log('Password updated');
+      
+      // Clear the form and close modal on success
+      currentPassword = '';
       newPassword = '';
       confirmNewPassword = '';
       showModal = false;
+      
+      // Show success message (you might want to implement a toast notification here)
+      console.log('Password successfully updated');
     } catch (error) {
-      passwordError = error.message;
+      passwordError = error.message || 'Error updating password';
       console.error('Error updating password', error);
-    }
+    } 
   }
 
   function openModal() {
     showModal = true;
     passwordError = null;
+    currentPassword = '';
+    newPassword = '';
+    confirmNewPassword = '';
   }
 
   function closeModal() {
@@ -151,17 +179,34 @@
       <form on:submit|preventDefault={handleUpdatePassword}>
         <div class="form-group">
           <label for="currentPassword">Current Password</label>
-          <input type="password" id="currentPassword" bind:value={currentPassword} />
+          <input 
+            type="password" 
+            id="currentPassword" 
+            bind:value={currentPassword}
+            required
+          />
         </div>
         <div class="form-group">
           <label for="newPassword">New Password</label>
-          <input type="password" id="newPassword" bind:value={newPassword} required />
+          <input 
+            type="password" 
+            id="newPassword" 
+            bind:value={newPassword} 
+            required
+          />
         </div>
         <div class="form-group">
           <label for="confirmNewPassword">Confirm New Password</label>
-          <input type="password" id="confirmNewPassword" bind:value={confirmNewPassword} required />
+          <input 
+            type="password" 
+            id="confirmNewPassword" 
+            bind:value={confirmNewPassword} 
+            required
+          />
         </div>
-        <button type="submit" class="button primary">Change Password</button>
+        <button type="submit" class="button primary">
+          Change Password
+        </button>
       </form>
     </div>
   </div>

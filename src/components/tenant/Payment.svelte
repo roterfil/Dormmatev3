@@ -111,7 +111,7 @@
           <tbody>
             {#each payments as payment}
               <tr>
-                <td>${payment.amount}</td>
+                <td>₱ {payment.amount}</td>
                 <td>
                   {payment.paymentDate
                     ? new Date(payment.paymentDate).toLocaleDateString()

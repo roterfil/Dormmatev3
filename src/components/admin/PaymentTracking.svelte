@@ -133,7 +133,7 @@
             <tr>
               <td>{payment.paymentId}</td>
               <td>{payment.tenant.name}</td>
-              <td>${payment.amount}</td>
+              <td>₱ {payment.amount}</td>
               <td>{payment.paymentDate ? new Date(payment.paymentDate).toLocaleDateString() : "Pending"}</td>
               <td>{new Date(payment.dueDate).toLocaleDateString()}</td>
 
