@@ -26,7 +26,7 @@
 <div class="layout-container">
     <aside class="sidebar">
         <div class="logo-container">
-            <img src="./assets/dormmate-logo.png" alt="DormMate" class="logo" />
+            <img src="/assets/dormmate-logo.png" alt="DormMate" class="logo" />
             <h1 class="brand">DormMate</h1>
             <p class="tagline">Manage your dorm with ease</p>
             <hr>

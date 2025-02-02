@@ -214,7 +214,7 @@
   .image-preview {
       margin: 10px 0;
       text-align: center;
-      dislay: flex;
+      display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;

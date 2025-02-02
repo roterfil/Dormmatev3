@@ -10,6 +10,9 @@
   let editPaymentStatus = '';
   let selectedTenantId = null;
   let searchQuery = ''; // Add searchQuery variable
+  let showImageModal = false;
+  let selectedImage = null;
+  
 
   // Computed property to filter units based on searchQuery
   $: filteredPayments = payments.filter(payment =>
@@ -17,7 +20,14 @@
     payment.tenant.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
     payment.paymentDate.toLowerCase().includes(searchQuery.toLowerCase()) ||
     payment.status.toLowerCase().includes(searchQuery.toLowerCase())
-  );
+  )
+  .sort((a, b) => {
+      // Convert payment dates to timestamps for comparison
+      const dateA = a.paymentDate ? new Date(a.paymentDate).getTime() : 0;
+      const dateB = b.paymentDate ? new Date(b.paymentDate).getTime() : 0;
+      // Sort in descending order (newest first)
+      return dateB - dateA;
+    });
 
   onMount(async () => {
     fetchPayments();
@@ -66,6 +76,22 @@
 
   function cancelEdit() {
     editingPaymentId = null;
+  }
+
+  function openImageModal(imageUrl) {
+    selectedImage = imageUrl;
+    showImageModal = true;
+  }
+
+  function closeImageModal() {
+    selectedImage = null;
+    showImageModal = false;
+  }
+
+  // Add error handling for images
+  function handleImageError(event) {
+    event.target.src = '/placeholder-image.png';
+    event.target.alt = 'Image not available';
   }
 </script>
 
@@ -128,14 +154,23 @@
                 <td>{payment.status}</td>
                 <td>
                   {#if payment.proofOfPayment}
-                    <img src={payment.proofOfPayment} alt="Proof of Payment" style="max-width: 200px; max-height: 200px;" />
-                  {:else}
-                    No proof submitted
-                  {/if}
+                  <!-- svelte-ignore a11y-click-events-have-key-events -->
+                  <img 
+                    src={payment.proofOfPayment} 
+                    alt="Proof of Payment" 
+                    style="max-width: 200px; max-height: 200px; cursor: pointer;" 
+                    on:error={handleImageError}
+                    on:click={() => openImageModal(payment.proofOfPayment)}
+                  />
+                {:else}
+                  No proof submitted
+                {/if}
                 </td>
                 <td>
-                  <button on:click={() => startEdit(payment)} style="background-color: #007bff;">Edit Status</button>
-                  <button on:click={() => removePayment(payment.paymentId)} style="background-color: red;">Delete</button>
+                  <div class="button-container">
+                    <button on:click={() => startEdit(payment)} style="background-color: #007bff;">Edit Status</button>
+                    <button on:click={() => removePayment(payment.paymentId)} style="background-color: red;">Delete</button>
+                  </div>
                 </td>
               {/if}
             </tr>
@@ -143,6 +178,17 @@
         </tbody>
       </table>
   {/if}
+
+  {#if showImageModal && selectedImage}
+  <!-- svelte-ignore a11y-click-events-have-key-events -->
+  <div class="modal" on:click={closeImageModal}>
+    <div class="modal-image-content" on:click|stopPropagation>
+      <img src={selectedImage} alt="Full size proof of payment" />
+      <button class="close-button" on:click={closeImageModal}>Close</button>
+    </div>
+  </div>
+{/if}
+
 </div>
 
 <style>
@@ -150,7 +196,6 @@
 .main-content {
   margin-left: 300px; /* Adjust this value based on the width of your sidebar */
   padding: 20px;
-  width: calc(100% - 250px); /* Ensure the main content takes up the remaining space */
   max-width: 1200px;
   padding: 20px;
 }
@@ -204,7 +249,8 @@ select {
 }
 
 button {
-  padding: 10px 20px;
+  size: 10px;
+  padding: 10px 10px;
   color: white;
   background-color: #007bff;
   border: none;
@@ -223,4 +269,57 @@ img {
   margin: auto;
 }
 
+.button-container { 
+  display: flex;
+  
+
+}
+
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+  }
+
+  .modal-image-content {
+    background-color: white;
+    padding: 20px;
+    border-radius: 5px;
+    max-width: 90vw;
+    max-height: 90vh;
+    position: relative;
+  }
+
+  .modal-image-content img {
+    max-width: 100%;
+    max-height: 80vh;
+    object-fit: contain;
+  }
+
+  .close-button {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background-color: #333;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+  }
+
+  .close-button:hover {
+    background-color: #555;
+  }
 </style>

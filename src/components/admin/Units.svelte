@@ -306,7 +306,7 @@
     display: flex;
     justify-content: center;
     gap: 10px;
-    margin-top: 10px;
+    margin-top: auto;
     align-items: flex-end;
     flex-shrink: 0;
     width: 100%;
